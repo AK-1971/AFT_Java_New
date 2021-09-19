@@ -1,6 +1,5 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.test;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 public class ContactDeletionTest extends TestBase {
@@ -8,9 +7,9 @@ public class ContactDeletionTest extends TestBase {
   @Test
   public void testContactDeletion() throws Exception {
     //wd.get("http://localhost/addressbook/");
-    selectContact();
+    app.getContactHelper().selectContact();
     //acceptNextAlert = true;
-    confirmDeletionContact();
+    app.getContactHelper().confirmDeletionContact();
     //assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
     //acceptNextAlert = true;
   }
