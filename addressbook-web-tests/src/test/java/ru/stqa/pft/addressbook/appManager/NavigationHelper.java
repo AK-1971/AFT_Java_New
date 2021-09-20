@@ -10,10 +10,17 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void gotoGroupPage() {
+    if (isElementPresent(By.tagName("h1")) && wd.findElement(By.tagName("h1")).getText().equals("Groups")
+            && isElementPresent(By.name("new"))) {     //объяснение этого if в 3.9.
+      return;
+    }
     click(By.linkText("groups"));
   }
 
   public void gotoHomePage() {
+    if (isElementPresent(By.id("maintable"))){          //объяснение этого if в 3.9.
+      return;
+    }
     click(By.linkText("home"));
   }
 }
