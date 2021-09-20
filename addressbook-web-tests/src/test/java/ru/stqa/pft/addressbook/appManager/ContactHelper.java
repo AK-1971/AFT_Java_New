@@ -39,7 +39,7 @@ public class ContactHelper extends HelperBase {
     click(By.name("submit"));
   }
 
-  public void confirmDeletionContact() {
+  public void deleteContactAndCofirm() {
     click(By.xpath("//input[@value='Delete']"));
     wd.switchTo().alert().accept();
     wd.findElement(By.cssSelector("div.msgbox"));
@@ -49,11 +49,21 @@ public class ContactHelper extends HelperBase {
     click(By.name("selected[]"));
   }
 
-  public void modifyContact() {
+  public void initEditContact() {
     click(By.xpath("//img[@alt='Edit']"));
   }
 
   public void updateContactEdit() {
     click(By.name("update"));
+  }
+
+  public void create(ContactData contactData) {
+    initNewContact();
+    fillContact(contactData, true);
+    submitContactForm();
+  }
+
+  public boolean isContactPresent() {
+    return isElementPresent(By.name("selected[]"));
   }
 }
