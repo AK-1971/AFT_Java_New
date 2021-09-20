@@ -52,8 +52,8 @@ public class AppsManager {
         break;
       default: wd = new OperaDriver();
     }
-
-    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    //ожидание появления поля если вдруг интернет медленный, объяснение в 3.8. на 11.30
+    wd.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);//это мешает при проверках когда элемент должен отсутствовать - тест будет зеленый, но время будет затрачено
     groupHelper = new GroupHelper(wd);
     contactHelper = new ContactHelper(wd);
     navigationHelper = new NavigationHelper(wd);
