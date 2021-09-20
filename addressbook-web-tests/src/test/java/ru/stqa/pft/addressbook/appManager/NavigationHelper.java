@@ -18,7 +18,7 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void gotoHomePage() {
-    if (isElementPresent(By.id("maintable"))){          //объяснение этого if в 3.9.
+    if (isElementPresent(By.id("maintable"))) {          //объяснение этого if в 3.9.
       return;
     }
     click(By.linkText("home"));

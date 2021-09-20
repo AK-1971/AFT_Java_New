@@ -39,8 +39,7 @@ public class AppsManager {
     } else if (browser.equals(BrowserType.CHROME)) {wd = new ChromeDriver();
     } else if (browser.equals(BrowserType.IE)) {wd = new InternetExplorerDriver();
     } else wd = new OperaDriver();*/
-    switch (browser)
-    {
+    switch (browser) {
       case BrowserType.FIREFOX:
         wd = new FirefoxDriver();
         break;
@@ -50,7 +49,8 @@ public class AppsManager {
       case BrowserType.IE:
         wd = new InternetExplorerDriver();
         break;
-      default: wd = new OperaDriver();
+      default:
+        wd = new OperaDriver();
     }
     //ожидание появления поля если вдруг интернет медленный, объяснение в 3.8. на 11.30
     wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);//это мешает при проверках когда элемент должен отсутствовать - тест будет зеленый, но время будет затрачено
