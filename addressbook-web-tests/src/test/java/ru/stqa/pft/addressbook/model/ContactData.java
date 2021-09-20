@@ -11,7 +11,8 @@ public class ContactData {
   private final String email;
   private final String notes;
 
-  public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String address, String home, String email, String notes) {
+  public ContactData(String firstname, String middlename, String lastname, String nickname, String company,
+                     String address, String home, String email, String notes) {
     this.firstname = firstname;
     this.middlename = middlename;
     this.lastname = lastname;
