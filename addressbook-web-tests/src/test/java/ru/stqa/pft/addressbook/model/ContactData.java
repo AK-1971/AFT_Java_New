@@ -49,8 +49,9 @@ public class ContactData {
     this.group = group;
   }
 
+
   public ContactData(int id, String firstname, String lastname, String adress, String homePhone,
-                      String group) {
+                     String group) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
@@ -60,6 +61,8 @@ public class ContactData {
   }
 
   public int getId() { return id; }
+  public void setId(int id) { this.id = id; }
+
 
   public String getFirstname() {
     return firstname;

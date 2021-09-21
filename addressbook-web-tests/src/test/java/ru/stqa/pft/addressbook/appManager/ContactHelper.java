@@ -83,7 +83,7 @@ public class ContactHelper extends HelperBase {
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
-      /*String name = element.getText();
+      /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
       String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
       ContactData contact = new ContactData(id, name, null, null, null, null,
               null, null, null, null, null);*/
