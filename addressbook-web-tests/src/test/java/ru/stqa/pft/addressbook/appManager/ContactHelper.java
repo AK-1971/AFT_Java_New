@@ -52,10 +52,6 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  public void initEditContact() {
-    click(By.xpath("//img[@alt='Edit']"));
-  }
-
   public void chooseContactEdit(int index) {
     wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
@@ -87,10 +83,17 @@ public class ContactHelper extends HelperBase {
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
-      String name = element.getText();
+      /*String name = element.getText();
       String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
       ContactData contact = new ContactData(id, name, null, null, null, null,
-              null, null, null, null, null);
+              null, null, null, null, null);*/
+      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
+      //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      ContactData contact = new ContactData(id, firstname, lastname, adress, phone, null);
       contacts.add(contact);
     }
     return contacts;

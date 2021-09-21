@@ -3,9 +3,11 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-  private String id;
+  private int id;
   private String firstname;
   private String middlename;
+
+
   private String lastname;
   private String nickname;
   private String company;
@@ -19,7 +21,7 @@ public class ContactData {
 
   public ContactData(String firstname, String middlename, String lastname, String nickname, String company,
                      String address, String home, String email, String notes, String group) {
-    this.id = null; //4.7.
+    this.id = 0; //4.7.
     this.firstname = firstname;
     this.middlename = middlename;
     this.lastname = lastname;
@@ -32,20 +34,7 @@ public class ContactData {
     this.group = group;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return Objects.equals(id, that.id) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(home, that.home) && Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, nickname, company, address, home, email);
-  }
-
-  public ContactData(String id, String firstname, String middlename, String lastname, String nickname, String company,
+  public ContactData(int id, String firstname, String middlename, String lastname, String nickname, String company,
                      String address, String home, String email, String notes, String group) {
     this.id = id;
     this.firstname = firstname;
@@ -60,24 +49,17 @@ public class ContactData {
     this.group = group;
   }
 
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id='" + id + '\'' +
-            ", firstname='" + firstname + '\'' +
-            ", middlename='" + middlename + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", nickname='" + nickname + '\'' +
-            ", company='" + company + '\'' +
-            ", address='" + address + '\'' +
-            ", home='" + home + '\'' +
-            ", email='" + email + '\'' +
-            ", notes='" + notes + '\'' +
-            ", group='" + group + '\'' +
-            '}';
+  public ContactData(int id, String firstname, String lastname, String adress, String homePhone,
+                      String group) {
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.address = adress;
+    this.home = homePhone;
+    this.group = group;
   }
 
-  public String getId() { return id; }
+  public int getId() { return id; }
 
   public String getFirstname() {
     return firstname;
@@ -116,5 +98,37 @@ public class ContactData {
   }
 
   public String getGroup() { return group; }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return Objects.equals(id, that.id) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname);
+  }
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id='" + id + '\'' +
+            ", firstname='" + firstname + '\'' +
+            ", middlename='" + middlename + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", company='" + company + '\'' +
+            ", address='" + address + '\'' +
+            ", home='" + home + '\'' +
+            ", email='" + email + '\'' +
+            ", notes='" + notes + '\'' +
+            ", group='" + group + '\'' +
+            '}';
+  }
+
 
 }
