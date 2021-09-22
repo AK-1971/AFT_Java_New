@@ -4,23 +4,39 @@ import java.util.Objects;
 
 public class GroupData {
 
-  private int id;
+  private int id = Integer.MAX_VALUE;
   public int getId() { return id; }
-  public void setId(int id) { this.id = id; }
+  public GroupData setId(int id) {
+    this.id = id;
+    return this;
+  }
 
-  private final String group_name;
+  private String group_name;
   public String getGroupName() {
     return group_name;
   }
+  public GroupData setName(String group_name) {
+    this.group_name = group_name;
+    return this;
+  }
 
-  private final String header;
+
+  private String header;
   public String getHeader() {
     return header;
   }
+  public GroupData setHeader(String header) {
+    this.header = header;
+    return this;
+  }
 
-  private final String footer;
+  private String footer;
   public String getFooter() {
     return footer;
+  }
+  public GroupData setFooter(String footer) {
+    this.footer = footer;
+    return this;
   }
 
   @Override
@@ -34,20 +50,6 @@ public class GroupData {
   @Override
   public int hashCode() {
     return Objects.hash(group_name);
-  }
-
-  public GroupData(String group_name, String header, String footer) { //4.7. на 09.30
-    this.id = Integer.MAX_VALUE;
-    this.group_name = group_name;
-    this.header = header;
-    this.footer = footer;
-  }
-
-  public GroupData(int id, String group_name, String header, String footer) {
-    this.id = id;
-    this.group_name = group_name;
-    this.header = header;
-    this.footer = footer;
   }
 
   @Override

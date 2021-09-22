@@ -121,7 +121,7 @@ public class ContactHelper extends HelperBase {
     //Проверяем также наличие группы - создаем при отсутствии
     manager.goTo().groupPage();
     if (!manager.group().isThereGroup()) {
-      manager.group().create(new GroupData("test1", "test2", "test3"));
+      manager.group().create(new GroupData().setName("test2").setHeader("header2").setFooter("footer"));
     }
     manager.goTo().homePage();
     if (!isContactPresent()) {

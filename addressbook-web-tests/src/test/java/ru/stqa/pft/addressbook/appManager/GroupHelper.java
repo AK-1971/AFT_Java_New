@@ -79,7 +79,7 @@ public class GroupHelper extends HelperBase {
   public void createIfNotExists() {
     manager.goTo().groupPage();
     if (!isThereGroup()) {
-     create(new GroupData("test1", "test2", "test3"));
+     create(new GroupData().setName("test1").setHeader("test2").setFooter("test3"));
     }
   }
 
@@ -98,7 +98,7 @@ public class GroupHelper extends HelperBase {
     for (WebElement element : elements) { //заполняем присутствующими элементами
       String name = element.getText(); //получаем имя (хедер и футер получить не можем
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); //4.7.на 08.00 поиск одного элемента внутри другого
-      GroupData group = new GroupData(id, name, null, null); //создаем объект из полученного
+      GroupData group = new GroupData().setId(id).setName(name); //создаем объект из полученного
       groups.add(group); // добавляем в список
     }
     return groups;

@@ -21,8 +21,8 @@ public class GroupModificationTest extends TestBase {
     app.goTo().groupPage();
     List<GroupData> before = app.group().list();
     int index = before.size() - 1;
-    GroupData modifyingGroup = new GroupData((before.get(index)).getId(), //4.7. на 11.00 сохраняем индекс модифицируемого элемента
-            "testModifyed","HeaderModifyed", "FooterModifyed");
+    GroupData modifyingGroup = new GroupData().setId((before.get(index)).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
+            .setName("testModifyed").setHeader("HeaderModifyed").setFooter("FooterModifyed");
     app.group().modify(index, modifyingGroup);
     List<GroupData> after = app.group().list();
     Assert.assertEquals(after.size(), before.size());
