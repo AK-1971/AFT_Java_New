@@ -8,6 +8,7 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -92,26 +93,6 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactData> list() {
-    List<ContactData> contacts = new ArrayList<ContactData>();
-    List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
-    for (WebElement element : elenents) {
-      /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
-      String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
-      ContactData contact = new ContactData(id, name, null, null, null, null,
-              null, null, null, null, null);*/
-      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
-      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
-      String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
-      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
-      //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
-              .setAddress(adress).setHome(phone);
-      contacts.add(contact);
-    }
-    return contacts;
-  }
 
   public void delete(int index) {
     selectContact(index);
@@ -138,5 +119,48 @@ public class ContactHelper extends HelperBase {
       manager.goTo().homePage();
     }
   }
+
+  public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<ContactData>();
+    List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
+    for (WebElement element : elenents) {
+      /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
+      String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
+      ContactData contact = new ContactData(id, name, null, null, null, null,
+              null, null, null, null, null);*/
+      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
+      //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(adress).setHome(phone);
+      contacts.add(contact);
+    }
+    return contacts;
+  }
+
+  public List<ContactData> list() {
+    List<ContactData> contacts = new ArrayList<ContactData>();
+    List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
+    for (WebElement element : elenents) {
+      /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
+      String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
+      ContactData contact = new ContactData(id, name, null, null, null, null,
+              null, null, null, null, null);*/
+      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
+      //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(adress).setHome(phone);
+      contacts.add(contact);
+    }
+    return contacts;
+  }
+
 
 }
