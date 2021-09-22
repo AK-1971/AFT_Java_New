@@ -7,16 +7,17 @@ import ru.stqa.pft.addressbook.model.GroupData;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GroupCreationTests extends TestBase {
 
   @Test
   public void testGroupCreation() throws Exception {
     app.goTo().groupPage();
-    List<GroupData> before = app.group().list();
+    Set<GroupData> before = app.group().all();
     GroupData group = new GroupData().setName("test1").setHeader("header1").setFooter("footer1");
     app.group().create(group);
-    List<GroupData> after = app.group().list();
+    Set<GroupData> after = app.group().all();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     /*int maxID = 0;              //Вместо этого блока можно использовать lambda функцию
@@ -27,11 +28,8 @@ public class GroupCreationTests extends TestBase {
     }
     group.setId(maxID);*/
     //group.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+    group.setId(after.stream().mapToInt((g)-> g.getId()).max().getAsInt());
     before.add(group);
-    Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    before.sort(byId);
-    after.sort(byId);
-
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
   }
 

@@ -20,7 +20,6 @@ public class GroupData {
     return this;
   }
 
-
   private String header;
   public String getHeader() {
     return header;
@@ -44,12 +43,12 @@ public class GroupData {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     GroupData groupData = (GroupData) o;
-    return Objects.equals(group_name, groupData.group_name);
+    return id == groupData.id && Objects.equals(group_name, groupData.group_name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(group_name);
+    return Objects.hash(id, group_name);
   }
 
   @Override
@@ -59,6 +58,5 @@ public class GroupData {
             ", group_name='" + group_name + '\'' +
             '}';
   }
-
 
 }

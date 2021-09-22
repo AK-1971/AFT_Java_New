@@ -5,7 +5,9 @@ import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GroupHelper extends HelperBase {
 
@@ -41,9 +43,14 @@ public class GroupHelper extends HelperBase {
     click(By.xpath("//input[5]"));
   }
 
-  public void selectGroup(int index) {
+  public void selectGroup(int index) {  //извлекает группу из упорядоченного списка по ее номеру
     wd.findElements(By.name("selected[]")).get(index).click();
   }
+
+  private void selectGroupById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+
 
   public void initGroupModification() {
     click(By.name("edit"));
@@ -61,20 +68,25 @@ public class GroupHelper extends HelperBase {
 
   }
 
-  public void modify(int index, GroupData modifyingGroup) {
-    selectGroup(index);
+  public void modify(GroupData modifyingGroup) {
+    selectGroupById(modifyingGroup.getId());
     initGroupModification();
     fillGroupForm(modifyingGroup);
     submitGroupModification();
     returnToGroupPage();
   }
 
-  public void delete(int groupList) {
-    selectGroup(groupList);
+  public void delete(int groupFromList) { //этот метод работал с упорядоченными множествами - до 5.5.
+    selectGroup(groupFromList);
     deleteSelectedGroup();
     returnToGroupPage();
   }
 
+  public void delete(GroupData deletedGroup) { //5.5. - метод удаляет объект из неупорядоченного множества
+    selectGroupById(deletedGroup.getId());
+    deleteSelectedGroup();
+    returnToGroupPage();
+  }
 
   public void createIfNotExists() {
     manager.goTo().groupPage();
@@ -92,7 +104,7 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<GroupData> list() { // 4.4.
+  /*public List<GroupData> list() { // 4.4.
     List<GroupData> groups = new ArrayList<GroupData>(); //создаем список групп на странице
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
     for (WebElement element : elements) { //заполняем присутствующими элементами
@@ -102,5 +114,18 @@ public class GroupHelper extends HelperBase {
       groups.add(group); // добавляем в список
     }
     return groups;
+  }*/
+
+  public Set<GroupData> all() { // 5.5. вместо метода list
+    Set<GroupData> groups = new HashSet<GroupData>(); //создаем список групп на странице
+    List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
+    for (WebElement element : elements) { //заполняем присутствующими элементами
+      String name = element.getText(); //получаем имя (хедер и футер получить не можем
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); //4.7.на 08.00 поиск одного элемента внутри другого
+      GroupData group = new GroupData().setId(id).setName(name); //создаем объект из полученного
+      groups.add(group); // добавляем в список
+    }
+    return groups;
   }
+
 }

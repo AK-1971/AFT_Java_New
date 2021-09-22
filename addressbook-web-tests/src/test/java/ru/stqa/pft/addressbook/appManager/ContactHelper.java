@@ -9,6 +9,7 @@ import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -127,8 +128,9 @@ public class ContactHelper extends HelperBase {
     manager.goTo().homePage();
     if (!isContactPresent()) {
       manager.goTo().groupPage();
-      List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
-      String groupName = group.get(0).getGroupName(); //и передаем его в данные контакта
+      //List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
+      Set<GroupData> group = manager.group().all();
+      String groupName = group.iterator().next().getGroupName(); //и передаем его в данные контакта
       manager.goTo().homePage();
       create(new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
               .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHome("123456789")

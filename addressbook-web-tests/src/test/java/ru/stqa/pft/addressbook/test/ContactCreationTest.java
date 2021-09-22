@@ -9,6 +9,7 @@ import ru.stqa.pft.addressbook.model.GroupData;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactCreationTest extends TestBase {
 
@@ -18,8 +19,10 @@ public class ContactCreationTest extends TestBase {
   public void preconditions() {
     app.group().createIfNotExists();
     app.goTo().groupPage();
-    List<GroupData> group = app.group().list();//выясняем имя группы в списке (берем первую)
-    groupName = group.get(0).getGroupName(); //и передаем его в данные контакта
+    /*List<GroupData> group = app.group().list();//выясняем имя группы в списке (берем первую)
+    groupName = group.get(0).getGroupName(); //и передаем его в данные контакта*/
+    Set<GroupData> group = app.group().all();
+    groupName = group.iterator().next().getGroupName();
   }
 
   @Test
