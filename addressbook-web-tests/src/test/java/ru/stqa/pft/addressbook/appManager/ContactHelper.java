@@ -6,15 +6,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
-  public ContactHelper(WebDriver wd) {
-    super(wd);
+  AppsManager manager;
+
+  public ContactHelper(AppsManager manager) {
+    super(manager.wd);
+    this.manager = manager;
   }
+  /*public ContactHelper(WebDriver wd) {
+    super(wd);
+  }*/
 
   public void fillContact(ContactData contactData, boolean itsContactCreation) {
     type(By.name("firstname"), contactData.getFirstname());
@@ -71,6 +78,12 @@ public class ContactHelper extends HelperBase {
     submitContactForm();
   }
 
+  public void modify(int index, ContactData modifyingContact) {
+    chooseContactEdit(index);
+    fillContact(modifyingContact, false);
+    updateContactEdit();
+  }
+
   public boolean isContactPresent() {
     return isElementPresent(By.name("selected[]"));
   }
@@ -98,4 +111,20 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }
+
+  public void createContactIfNotExists() {
+    //Проверяем также наличие группы - создаем при отсутствии
+    manager.getNavigationHelper().gotoGroupPage();
+    if (!manager.getGroupHelper().isThereGroup()) {
+      manager.getGroupHelper().create(new GroupData("test1", "test2", "test3"));
+    }
+    manager.getNavigationHelper().gotoHomePage();
+    if (!isContactPresent()) {
+      create(new ContactData("Ivan", "Ivanovich", "Ivanov",
+              "Beetle", "NCC", "Moscow", "123456789",
+              "asdf@mail.ru", "bla bla", "test1"));
+      manager.getNavigationHelper().gotoHomePage();
+    }
+  }
+
 }

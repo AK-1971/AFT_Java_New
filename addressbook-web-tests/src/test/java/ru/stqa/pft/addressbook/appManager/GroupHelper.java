@@ -10,9 +10,15 @@ import java.util.List;
 
 public class GroupHelper extends HelperBase {
 
-  public GroupHelper(WebDriver wd) {
-    super(wd);
+  AppsManager manager;
+
+  public GroupHelper(AppsManager manager) {
+    super(manager.wd);
+    this.manager = manager;
   }
+  /*public GroupHelper(WebDriver wd) {
+    super(wd);
+  }*/
 
   public void returnToGroupPage() {
     click(By.linkText("group page"));
@@ -55,6 +61,22 @@ public class GroupHelper extends HelperBase {
     returnToGroupPage();
 
   }
+
+  public void modify(int index, GroupData modifyingGroup) {
+    selectGroup(index);
+    initGroupModification();
+    fillGroupForm(modifyingGroup);
+    submitGroupModification();
+    returnToGroupPage();
+  }
+
+  public void createGroupIfNotExists() {
+    manager.getNavigationHelper().gotoGroupPage();
+    if (!isThereGroup()) {
+     create(new GroupData("test1", "test2", "test3"));
+    }
+  }
+
 
   public boolean isThereGroup() {
     return isElementPresent(By.name("selected[]"));

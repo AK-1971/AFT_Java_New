@@ -54,8 +54,8 @@ public class AppsManager {
     }
     //ожидание появления поля если вдруг интернет медленный, объяснение в 3.8. на 11.30
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);//это мешает при проверках когда элемент должен отсутствовать - тест будет зеленый, но время будет затрачено
-    groupHelper = new GroupHelper(wd);
-    contactHelper = new ContactHelper(wd);
+    groupHelper = new GroupHelper(this);
+    contactHelper = new ContactHelper(this);
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
     sessionHelper.login("admin", "secret");
