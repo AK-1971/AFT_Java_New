@@ -26,9 +26,9 @@ public class ContactCreationTest extends TestBase {
   public void testContactCreation() throws Exception {
     app.goTo().homePage();
     List<ContactData> before = app.contact().list();
-    ContactData contact = new ContactData("Ivan", "Ivanovich", "Ivanov",
-            "Beetle", "NCC", "Moscow", "123456789",
-            "asdf@mail.ru", "bla bla", String.format("%s", groupName));
+    ContactData contact = new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
+            .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHome("123456789")
+            .setEmail("asdf@mail.ru").setNotes("bla bla").setGroup(String.format("%s", groupName));
     app.contact().create(contact);
     app.goTo().homePage();
     List<ContactData> after = app.contact().list();

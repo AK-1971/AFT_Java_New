@@ -20,9 +20,9 @@ public class ContactModificationTest extends TestBase {
   public void testContactModification() {
     List<ContactData> before = app.contact().list();
     int index = before.size() - 1;
-    ContactData modifyingContact = new ContactData((before.get(index)).getId(), //4.7. на 11.00 сохраняем индекс модифицируемого элемента
-            "Contact", null, "Modified","Nick", "MMM",
-            "AddressM", "Home", "email", null, null);
+    ContactData modifyingContact = new ContactData().setID((before.get(index)).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
+            .setFirstname("Contact").setLastname("Modified").setNickname("Nick").setCompany("MMM")
+            .setAddress("AddressM").setHome("Home").setEmail("email");
     app.contact().modify(index, modifyingContact);
     app.goTo().homePage();
     List<ContactData> after = app.contact().list();

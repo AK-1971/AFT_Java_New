@@ -105,7 +105,8 @@ public class ContactHelper extends HelperBase {
       String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
       //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      ContactData contact = new ContactData(id, firstname, lastname, adress, phone, null);
+      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(adress).setHome(phone);
       contacts.add(contact);
     }
     return contacts;
@@ -129,9 +130,9 @@ public class ContactHelper extends HelperBase {
       List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
       String groupName = group.get(0).getGroupName(); //и передаем его в данные контакта
       manager.goTo().homePage();
-      create(new ContactData("Ivan", "Ivanovich", "Ivanov",
-              "Beetle", "NCC", "Moscow", "123456789",
-              "asdf@mail.ru", "bla bla", String.format("%s", groupName)));
+      create(new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
+              .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHome("123456789")
+              .setEmail("asdf@mail.ru").setNotes( "bla bla").setGroup(String.format("%s", groupName)));
       manager.goTo().homePage();
     }
   }
