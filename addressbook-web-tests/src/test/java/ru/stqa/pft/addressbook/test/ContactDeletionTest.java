@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactDeletionTest extends TestBase {
 
@@ -17,15 +18,15 @@ public class ContactDeletionTest extends TestBase {
 
   @Test
   public void testContactDeletion() throws Exception {
-    List<ContactData> before = app.contact().list();
-    int index = before.size() - 1;
-    app.contact().delete(index);
-    List<ContactData> after = app.contact().list();
-    Assert.assertEquals(after.size(), index);
-    before.remove(index);
-    for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член коллекции
-      Assert.assertEquals(before.get(i), after.get(i));
-    }
+    Set<ContactData> before = app.contact().all();
+    ContactData deletedContact = before.iterator().next();
+    app.contact().delete(deletedContact);
+    Set<ContactData> after = app.contact().all();
+    Assert.assertEquals(after.size(), before.size() - 1);
+    before.remove(deletedContact);
+    /*for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член упорядоченной коллекции
+      Assert.assertEquals(before.get(i), after.get(i)); так работал до того как list() поменял аll()
+    }*/
     Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
   }
 
