@@ -160,7 +160,7 @@ public class ContactHelper extends HelperBase {
     return contacts;
   }
 
-  public List<ContactData> list() {
+  public List<ContactData> list() {//до 5.5. пользовались этим методом
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
