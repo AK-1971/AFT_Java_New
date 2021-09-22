@@ -11,17 +11,16 @@ public class GroupDeletionTest extends TestBase {
 
   @BeforeMethod
   public void preconditions() {
-    app.getGroupHelper().createGroupIfNotExists();
+    app.group().createIfNotExists();
   }
 
   @Test
   public void testGroupDeletion() throws Exception {
-    app.getNavigationHelper().gotoGroupPage();
-    List<GroupData> before = app.getGroupHelper().getGroupList();
-    app.getGroupHelper().selectGroup(before.size() - 1);
-    app.getGroupHelper().deleteSelectedGroup();
-    app.getGroupHelper().returnToGroupPage();
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    app.goTo().groupPage();
+    List<GroupData> before = app.group().list();
+    int index = before.size() - 1;
+    app.group().delete(index);
+    List<GroupData> after = app.group().list();
     Assert.assertEquals(after.size(), before.size() - 1);
 
     before.remove(before.size() - 1);
@@ -29,9 +28,6 @@ public class GroupDeletionTest extends TestBase {
       Assert.assertEquals(before.get(i), after.get(i));
     }
     Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
-
-
   }
-
 
 }

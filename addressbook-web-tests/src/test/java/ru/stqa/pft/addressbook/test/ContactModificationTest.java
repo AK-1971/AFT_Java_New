@@ -4,7 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -14,19 +13,19 @@ public class ContactModificationTest extends TestBase {
 
   @BeforeMethod
   public void preconditions(){
-    app.getContactHelper().createContactIfNotExists();
+    app.contact().createIfNotExists();
   }
 
   @Test
   public void testContactModification() {
-    List<ContactData> before = app.getContactHelper().getContactList();
+    List<ContactData> before = app.contact().list();
     int index = before.size() - 1;
     ContactData modifyingContact = new ContactData((before.get(index)).getId(), //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             "Contact", null, "Modified","Nick", "MMM",
             "AddressM", "Home", "email", null, null);
-    app.getContactHelper().modify(index, modifyingContact);
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.contact().modify(index, modifyingContact);
+    app.goTo().homePage();
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size());
 
     before.remove(index);

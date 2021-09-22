@@ -11,18 +11,16 @@ public class ContactDeletionTest extends TestBase {
 
   @BeforeMethod
   public void preconditions(){
-    app.getContactHelper().createContactIfNotExists();
+    app.contact().createIfNotExists();
   }
 
 
   @Test
   public void testContactDeletion() throws Exception {
-    List<ContactData> before = app.getContactHelper().getContactList();
+    List<ContactData> before = app.contact().list();
     int index = before.size() - 1;
-    app.getContactHelper().selectContact(index);
-    app.getContactHelper().deleteContactAndCofirm();
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.contact().delete(index);
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), index);
     before.remove(index);
     for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член коллекции
@@ -30,5 +28,6 @@ public class ContactDeletionTest extends TestBase {
     }
     Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
   }
+
 
 }

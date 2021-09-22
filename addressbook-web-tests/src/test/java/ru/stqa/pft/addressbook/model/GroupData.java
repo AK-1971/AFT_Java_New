@@ -9,7 +9,7 @@ public class GroupData {
   public void setId(int id) { this.id = id; }
 
   private final String group_name;
-  public String getGroup_name() {
+  public String getGroupName() {
     return group_name;
   }
 

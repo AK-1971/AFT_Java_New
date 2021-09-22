@@ -13,18 +13,18 @@ public class GroupModificationTest extends TestBase {
 
   @BeforeMethod
   public void preconditions() {
-    app.getGroupHelper().createGroupIfNotExists();
+    app.group().createIfNotExists();
   }
 
   @Test
   public void testGroupModification() {
-    app.getNavigationHelper().gotoGroupPage();
-    List<GroupData> before = app.getGroupHelper().getGroupList();
+    app.goTo().groupPage();
+    List<GroupData> before = app.group().list();
     int index = before.size() - 1;
     GroupData modifyingGroup = new GroupData((before.get(index)).getId(), //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             "testModifyed","HeaderModifyed", "FooterModifyed");
-    app.getGroupHelper().modify(index, modifyingGroup);
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    app.group().modify(index, modifyingGroup);
+    List<GroupData> after = app.group().list();
     Assert.assertEquals(after.size(), before.size());
 
     before.remove(before.size() - 1);

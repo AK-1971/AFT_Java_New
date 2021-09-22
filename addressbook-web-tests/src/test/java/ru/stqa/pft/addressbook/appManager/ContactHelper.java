@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -92,7 +91,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactData> getContactList() {
+  public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
@@ -112,18 +111,28 @@ public class ContactHelper extends HelperBase {
     return contacts;
   }
 
-  public void createContactIfNotExists() {
+  public void delete(int index) {
+    selectContact(index);
+    deleteContactAndCofirm();
+    manager.goTo().homePage();
+  }
+
+  public void createIfNotExists() {
     //Проверяем также наличие группы - создаем при отсутствии
-    manager.getNavigationHelper().gotoGroupPage();
-    if (!manager.getGroupHelper().isThereGroup()) {
-      manager.getGroupHelper().create(new GroupData("test1", "test2", "test3"));
+    manager.goTo().groupPage();
+    if (!manager.group().isThereGroup()) {
+      manager.group().create(new GroupData("test1", "test2", "test3"));
     }
-    manager.getNavigationHelper().gotoHomePage();
+    manager.goTo().homePage();
     if (!isContactPresent()) {
+      manager.goTo().groupPage();
+      List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
+      String groupName = group.get(0).getGroupName(); //и передаем его в данные контакта
+      manager.goTo().homePage();
       create(new ContactData("Ivan", "Ivanovich", "Ivanov",
               "Beetle", "NCC", "Moscow", "123456789",
-              "asdf@mail.ru", "bla bla", "test1"));
-      manager.getNavigationHelper().gotoHomePage();
+              "asdf@mail.ru", "bla bla", String.format("%s", groupName)));
+      manager.goTo().homePage();
     }
   }
 

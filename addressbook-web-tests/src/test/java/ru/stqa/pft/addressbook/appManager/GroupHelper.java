@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 
@@ -29,7 +28,7 @@ public class GroupHelper extends HelperBase {
   }
 
   public void fillGroupForm(GroupData groupData) {
-    type(By.name("group_name"), groupData.getGroup_name());
+    type(By.name("group_name"), groupData.getGroupName());
     type(By.name("group_header"), groupData.getHeader());
     type(By.name("group_footer"), groupData.getFooter());
   }
@@ -70,8 +69,15 @@ public class GroupHelper extends HelperBase {
     returnToGroupPage();
   }
 
-  public void createGroupIfNotExists() {
-    manager.getNavigationHelper().gotoGroupPage();
+  public void delete(int groupList) {
+    selectGroup(groupList);
+    deleteSelectedGroup();
+    returnToGroupPage();
+  }
+
+
+  public void createIfNotExists() {
+    manager.goTo().groupPage();
     if (!isThereGroup()) {
      create(new GroupData("test1", "test2", "test3"));
     }
@@ -86,7 +92,7 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<GroupData> getGroupList() { // 4.4.
+  public List<GroupData> list() { // 4.4.
     List<GroupData> groups = new ArrayList<GroupData>(); //создаем список групп на странице
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
     for (WebElement element : elements) { //заполняем присутствующими элементами

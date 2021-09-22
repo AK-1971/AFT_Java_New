@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,21 +12,26 @@ import java.util.List;
 
 public class ContactCreationTest extends TestBase {
 
+  String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
+
   @BeforeMethod
-  public void preconditions() { //поскольку указано обязательное добавление в группу м именем test1, создаем
-    app.getGroupHelper().createGroupIfNotExists();
+  public void preconditions() {
+    app.group().createIfNotExists();
+    app.goTo().groupPage();
+    List<GroupData> group = app.group().list();//выясняем имя группы в списке (берем первую)
+    groupName = group.get(0).getGroupName(); //и передаем его в данные контакта
   }
 
   @Test
   public void testContactCreation() throws Exception {
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
+    app.goTo().homePage();
+    List<ContactData> before = app.contact().list();
     ContactData contact = new ContactData("Ivan", "Ivanovich", "Ivanov",
             "Beetle", "NCC", "Moscow", "123456789",
-            "asdf@mail.ru", "bla bla", "test1");
-    app.getContactHelper().create(contact);
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
+            "asdf@mail.ru", "bla bla", String.format("%s", groupName));
+    app.contact().create(contact);
+    app.goTo().homePage();
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     /*int maxID = 0;
