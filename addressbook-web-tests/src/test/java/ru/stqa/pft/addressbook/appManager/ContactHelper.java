@@ -65,8 +65,9 @@ public class ContactHelper extends HelperBase {
   }
 
 
-  public void chooseContactEdit(int index) {
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+  public void chooseContactEdit(int id) {
+    //wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    wd.findElement(By.cssSelector("a[href=\"edit.php?id=" + id + "\"]")).click();
   }
 
   public void contactEdit(int id) {
@@ -89,6 +90,13 @@ public class ContactHelper extends HelperBase {
     fillContact(modifyingContact, false);
     updateContactEdit();
   }
+
+  public void modify(ContactData modifyingContact) {
+    chooseContactEdit(modifyingContact.getId());
+    fillContact(modifyingContact, false);
+    updateContactEdit();
+  }
+
 
   public boolean isContactPresent() {
     return isElementPresent(By.name("selected[]"));
