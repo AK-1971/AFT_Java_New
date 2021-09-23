@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.appManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -116,7 +117,7 @@ public class GroupHelper extends HelperBase {
     return groups;
   }*/
 
-  public Set<GroupData> all() { // 5.5. вместо метода list
+  /*public Set<GroupData> all() { // 5.5. вместо метода list
     Set<GroupData> groups = new HashSet<GroupData>(); //создаем список групп на странице
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
     for (WebElement element : elements) { //заполняем присутствующими элементами
@@ -126,6 +127,19 @@ public class GroupHelper extends HelperBase {
       groups.add(group); // добавляем в список
     }
     return groups;
+  }*/
+
+  public Groups all() { // 5.6.
+    Groups groups = new Groups(); //создаем список групп на странице
+    List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
+    for (WebElement element : elements) { //заполняем присутствующими элементами
+      String name = element.getText(); //получаем имя (хедер и футер получить не можем
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); //4.7.на 08.00 поиск одного элемента внутри другого
+      GroupData group = new GroupData().setId(id).setName(name); //создаем объект из полученного
+      groups.add(group); // добавляем в список
+    }
+    return groups;
   }
+
 
 }

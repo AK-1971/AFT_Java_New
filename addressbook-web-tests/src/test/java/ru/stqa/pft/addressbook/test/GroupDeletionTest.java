@@ -1,12 +1,18 @@
 package ru.stqa.pft.addressbook.test;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupDeletionTest extends TestBase {
 
@@ -18,17 +24,13 @@ public class GroupDeletionTest extends TestBase {
   @Test
   public void testGroupDeletion() throws Exception {
     app.goTo().groupPage();
-    Set<GroupData> before = app.group().all();
+    Groups before = app.group().all(); //5.6.
     GroupData deletedGroup = before.iterator().next();
     app.group().delete(deletedGroup);
-    Set<GroupData> after = app.group().all();
+    Groups after = app.group().all();
     Assert.assertEquals(after.size(), before.size() - 1);
 
-    before.remove(deletedGroup);
-    /*for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член коллекции
-      Assert.assertEquals(before.get(i), after.get(i)); // если эта коллекция List как было до 5.5. когда вместо метода all()
-    } был метод list()*/
-    Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
+    assertThat(after, equalTo(before.withOut(deletedGroup)));
   }
 
 }
