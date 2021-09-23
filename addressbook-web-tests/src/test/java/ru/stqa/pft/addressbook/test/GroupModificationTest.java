@@ -29,13 +29,11 @@ public class GroupModificationTest extends TestBase {
     GroupData newGroup = new GroupData().setId(oldGroup.getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             .setName("testModifyed").setHeader("HeaderModifyed").setFooter("FooterModifyed");
     app.group().modify(newGroup);
+    Assert.assertEquals(app.group().getCount(), before.size());
     Groups after = app.group().all();
-    Assert.assertEquals(after.size(), before.size());
-
-    before.remove(oldGroup);
+    /*before.remove(oldGroup);
     before.add(newGroup);
-
-    Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+    Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));*/
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldGroup).withAdded(newGroup)));
   }
 

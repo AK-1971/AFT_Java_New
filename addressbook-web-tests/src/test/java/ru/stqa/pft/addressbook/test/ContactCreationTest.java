@@ -37,8 +37,8 @@ public class ContactCreationTest extends TestBase {
             .setEmail("asdf@mail.ru").setNotes("bla bla").setGroup(String.format("%s", groupName));
     app.contact().create(contact);
     app.goTo().homePage();
+    Assert.assertEquals(app.contact().getCount(), before.size() + 1);
     Contacts after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() + 1);
     contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }

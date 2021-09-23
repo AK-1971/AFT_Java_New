@@ -24,8 +24,8 @@ public class ContactDeletionTest extends TestBase {
     Contacts before = app.contact().all();
     ContactData deletedContact = before.iterator().next();
     app.contact().delete(deletedContact);
+    Assert.assertEquals(app.contact().getCount(), before.size() - 1);
     Contacts after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() - 1);
     //before.remove(deletedContact);
     /*for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член упорядоченной коллекции
       Assert.assertEquals(before.get(i), after.get(i)); так работал до того как list() поменял аll()

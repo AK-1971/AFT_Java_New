@@ -29,8 +29,8 @@ public class ContactModificationTest extends TestBase {
             .setAddress("AddressM").setHome("Home").setEmail("email");
     app.contact().modify(newContact);
     app.goTo().homePage();
+    Assert.assertEquals(app.contact().getCount(), before.size());
     Contacts after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size());
     /*before.remove(oldContact); этот модуль работал до 5.6.
     before.add(newContact);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));*/
