@@ -31,7 +31,7 @@ public class ContactModificationTest extends TestBase {
     app.goTo().homePage();
     Contacts after = app.contact().all();
     Assert.assertEquals(after.size(), before.size());
-    /*before.remove(oldContact);
+    /*before.remove(oldContact); этот модуль работал до 5.6.
     before.add(newContact);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));*/
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldContact).withAdded(newContact)));
