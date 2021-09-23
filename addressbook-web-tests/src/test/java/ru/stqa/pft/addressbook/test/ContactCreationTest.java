@@ -39,7 +39,7 @@ public class ContactCreationTest extends TestBase {
     app.goTo().homePage();
     Assert.assertEquals(app.contact().getCount(), before.size() + 1);
     Contacts after = app.contact().all();
-    contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
+    contact.setID(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
 

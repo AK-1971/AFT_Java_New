@@ -7,10 +7,7 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -85,21 +82,21 @@ public class ContactHelper extends HelperBase {
     initNewContact();
     fillContact(contactData, true);
     submitContactForm();
-    contactsCashe = null;
+    contactsCache = null;
   }
 
   public void modify(int index, ContactData modifyingContact) {
     chooseContactEdit(index);
     fillContact(modifyingContact, false);
     updateContactEdit();
-    contactsCashe = null;
+    contactsCache = null;
   }
 
   public void modify(ContactData modifyingContact) {
     chooseContactEdit(modifyingContact.getId());
     fillContact(modifyingContact, false);
     updateContactEdit();
-    contactsCashe = null;
+    contactsCache = null;
   }
 
 
@@ -114,14 +111,14 @@ public class ContactHelper extends HelperBase {
   public void delete(int index) {
     selectContact(index);
     deleteContactAndCofirm();
-    contactsCashe = null;
+    contactsCache = null;
     manager.goTo().homePage();
   }
 
   public void delete(ContactData contact) {
     selectContactByID(contact.getId());
     deleteContactAndCofirm();
-    contactsCashe = null;
+    contactsCache = null;
     manager.goTo().homePage();
   }
 
@@ -145,14 +142,14 @@ public class ContactHelper extends HelperBase {
       manager.goTo().homePage();
     }
   }
-  private Contacts contactsCashe = null; //5.7.
+  private Contacts contactsCache = null; //5.7.
 
   public Contacts all() {
-    if (contactsCashe != null){ //5.7. если кеш не пустой, значит список уже прочитан, находится в кеше, дальнейшее действие метод all(0 прекращается
-      return new Contacts(contactsCashe); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
+    if (contactsCache != null){ //5.7. если кеш не пустой, значит список уже прочитан, находится в кеше, дальнейшее действие метод all(0 прекращается
+      return new Contacts(contactsCache); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
     }
     //Contacts contacts = new Contacts();
-    contactsCashe = new Contacts(); //создаем список контактов на странице - считываем в кеш
+    contactsCache = new Contacts(); //создаем список контактов на странице - считываем в кеш
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
       /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
@@ -167,10 +164,35 @@ public class ContactHelper extends HelperBase {
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
               .setAddress(adress).setHome(phone);
-      contactsCashe.add(contact);
+      contactsCache.add(contact);
     }
-    return contactsCashe;
+    return contactsCache;
   }
+
+  public Contacts allLikeAK() {
+    if (contactsCache != null){
+      return new Contacts(contactsCache);
+    }
+
+    contactsCache = new Contacts();
+    List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
+
+    for (WebElement element : elements) {
+      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String address = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
+      String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+
+      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(address).setHome(phone).setEmail(email);
+      contactsCache.add(contact);
+    }
+    return new Contacts(contactsCache);
+  }
+
+
 
   /*public Set<ContactData> all() {
     Set<ContactData> contacts = new HashSet<ContactData>();

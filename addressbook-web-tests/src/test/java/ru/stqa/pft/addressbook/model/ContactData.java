@@ -15,6 +15,8 @@ public class ContactData {
   private String notes;
   private String group;
 
+  //public void setId(int id) { this.id = id; }
+
   public  ContactData setID(int id){
     this.id = id;
     return this;
@@ -71,7 +73,6 @@ public class ContactData {
   }
 
   public int getId() { return id; }
-  public void setId(int id) { this.id = id; }
 
 
   public String getFirstname() {
