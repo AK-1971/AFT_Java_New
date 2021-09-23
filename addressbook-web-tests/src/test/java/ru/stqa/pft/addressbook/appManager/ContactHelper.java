@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -139,8 +140,8 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<ContactData>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
       /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
@@ -160,14 +161,10 @@ public class ContactHelper extends HelperBase {
     return contacts;
   }
 
-  public List<ContactData> list() {//до 5.5. пользовались этим методом
-    List<ContactData> contacts = new ArrayList<ContactData>();
+  /*public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
-      /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
-      String id = element.findElement(By.tagName("input")).getAttribute("value"); //4.7.на 08.00 поиск одного элемента внутри другого
-      ContactData contact = new ContactData(id, name, null, null, null, null,
-              null, null, null, null, null);*/
       String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
       String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
       String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
@@ -180,6 +177,23 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }
+
+  public List<ContactData> list() {//до 5.5. пользовались этим методом
+    List<ContactData> contacts = new ArrayList<ContactData>();
+    List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
+    for (WebElement element : elenents) {
+      String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String adress = element.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      String phone = element.findElement(By.cssSelector("a:nth-child(1)")).getText();
+      //String email = element.findElement(By.cssSelector("a:nth-child(3)")).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(adress).setHome(phone);
+      contacts.add(contact);
+    }
+    return contacts;
+  }*/
 
 
 }

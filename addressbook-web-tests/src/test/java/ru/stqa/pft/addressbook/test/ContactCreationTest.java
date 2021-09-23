@@ -1,9 +1,12 @@
 package ru.stqa.pft.addressbook.test;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
@@ -28,30 +31,16 @@ public class ContactCreationTest extends TestBase {
   @Test
   public void testContactCreation() throws Exception {
     app.goTo().homePage();
-    Set<ContactData> before = app.contact().all();
+    Contacts before = app.contact().all();
     ContactData contact = new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
             .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHome("123456789")
             .setEmail("asdf@mail.ru").setNotes("bla bla").setGroup(String.format("%s", groupName));
     app.contact().create(contact);
     app.goTo().homePage();
-    Set<ContactData> after = app.contact().all();
+    Contacts after = app.contact().all();
     Assert.assertEquals(after.size(), before.size() + 1);
-
-    /*int maxID = 0;
-    for(ContactData с : after) {
-      if(maxID < с.getId()) {
-        maxID = с.getId();
-      }
-    }
-    contact.setId(maxID);*/
-    //contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
-    /*before.add(contact); 5.5. Заккоментил поскольку работаем с неупорядоченными множествами и извлекаем id элемента
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    before.sort(byId);
-    after.sort(byId);*/
     contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
-    before.add(contact);
-    Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
 
 }
