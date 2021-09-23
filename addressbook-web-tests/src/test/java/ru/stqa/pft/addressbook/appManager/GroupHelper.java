@@ -65,6 +65,7 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroup();
+    groupCashe = null;
     returnToGroupPage();
 
   }
@@ -74,18 +75,21 @@ public class GroupHelper extends HelperBase {
     initGroupModification();
     fillGroupForm(modifyingGroup);
     submitGroupModification();
+    groupCashe = null;
     returnToGroupPage();
   }
 
   public void delete(int groupFromList) { //этот метод работал с упорядоченными множествами - до 5.5.
     selectGroup(groupFromList);
     deleteSelectedGroup();
+    groupCashe = null;
     returnToGroupPage();
   }
 
   public void delete(GroupData deletedGroup) { //5.5. - метод удаляет объект из неупорядоченного множества
     selectGroupById(deletedGroup.getId());
     deleteSelectedGroup();
+    groupCashe = null;
     returnToGroupPage();
   }
 
@@ -129,16 +133,22 @@ public class GroupHelper extends HelperBase {
     return groups;
   }*/
 
+  private  Groups groupCashe = null; //5.7.
+
   public Groups all() { // 5.6.
-    Groups groups = new Groups(); //создаем список групп на странице
+    if (groupCashe != null){ //5.7.
+      return new Groups(groupCashe); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
+    }
+    //Groups groups = new Groups(); //создаем список групп на странице
+    groupCashe = new Groups(); //создаем список групп на странице - считываем в кеш
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
     for (WebElement element : elements) { //заполняем присутствующими элементами
       String name = element.getText(); //получаем имя (хедер и футер получить не можем
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); //4.7.на 08.00 поиск одного элемента внутри другого
       GroupData group = new GroupData().setId(id).setName(name); //создаем объект из полученного
-      groups.add(group); // добавляем в список
+      groupCashe.add(group); // добавляем в список
     }
-    return groups;
+    return new Groups(groupCashe); //возвращаем копию (создавая новый объект куда передаем кеш
   }
 
 

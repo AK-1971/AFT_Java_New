@@ -7,6 +7,7 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -84,18 +85,21 @@ public class ContactHelper extends HelperBase {
     initNewContact();
     fillContact(contactData, true);
     submitContactForm();
+    contactsCashe = null;
   }
 
   public void modify(int index, ContactData modifyingContact) {
     chooseContactEdit(index);
     fillContact(modifyingContact, false);
     updateContactEdit();
+    contactsCashe = null;
   }
 
   public void modify(ContactData modifyingContact) {
     chooseContactEdit(modifyingContact.getId());
     fillContact(modifyingContact, false);
     updateContactEdit();
+    contactsCashe = null;
   }
 
 
@@ -110,12 +114,14 @@ public class ContactHelper extends HelperBase {
   public void delete(int index) {
     selectContact(index);
     deleteContactAndCofirm();
+    contactsCashe = null;
     manager.goTo().homePage();
   }
 
   public void delete(ContactData contact) {
     selectContactByID(contact.getId());
     deleteContactAndCofirm();
+    contactsCashe = null;
     manager.goTo().homePage();
   }
 
@@ -139,9 +145,14 @@ public class ContactHelper extends HelperBase {
       manager.goTo().homePage();
     }
   }
+  private Contacts contactsCashe = null; //5.7.
 
   public Contacts all() {
-    Contacts contacts = new Contacts();
+    if (contactsCashe != null){ //5.7. если кеш не пустой, значит список уже прочитан, находится в кеше, дальнейшее действие метод all(0 прекращается
+      return new Contacts(contactsCashe); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
+    }
+    //Contacts contacts = new Contacts();
+    contactsCashe = new Contacts(); //создаем список контактов на странице - считываем в кеш
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elenents) {
       /*String name = element.getText(); Так неправильно! - берутся все записи в строке таблицы и присваиваются в firstname
@@ -156,9 +167,9 @@ public class ContactHelper extends HelperBase {
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       ContactData contact = new ContactData().setID(id).setFirstname(firstname).setLastname(lastname)
               .setAddress(adress).setHome(phone);
-      contacts.add(contact);
+      contactsCashe.add(contact);
     }
-    return contacts;
+    return contactsCashe;
   }
 
   /*public Set<ContactData> all() {
