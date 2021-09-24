@@ -141,7 +141,7 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public ContactData infoFromEditForm(ContactData contact) {
+  public ContactData infoFromEditForm(ContactData contact) { //5.10
     initContactModifyByID(contact.getId());
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
@@ -159,7 +159,7 @@ public class ContactHelper extends HelperBase {
             .setEmail(email).setEmail2(email2);
   }
 
-  private void initContactModifyByID(int id) {
+  private void initContactModifyByID(int id) { //5.10
     WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']",id)));
     WebElement row = checkbox.findElement(By.xpath("./../.."));
     List<WebElement> cells = row.findElements(By.tagName("td"));
@@ -189,10 +189,10 @@ public class ContactHelper extends HelperBase {
       String adress = cells.get(3).getText();
       String allEmails = cells.get(4).getText();
       String allPhones = cells.get(5).getText();
-      String[] emails = cells.get(4).getText().split("\n");
-      String[] phones = cells.get(5).getText().split("\n");
+      /*String[] emails = cells.get(4).getText().split("\n"); //5.10
+      String[] phones = cells.get(5).getText().split("\n"); //5.10*/
       ContactData contact = new ContactData().setId(id).setFirstname(firstname).setLastname(lastname)
-              .setAddress(adress).setAllPhones(allPhones).setEmail(emails[0]).setEmail2(emails[1]);
+              .setAddress(adress).setAllPhones(allPhones).setAllEmail(allEmails);
       contactsCache.add(contact);
     }
     return contactsCache;
