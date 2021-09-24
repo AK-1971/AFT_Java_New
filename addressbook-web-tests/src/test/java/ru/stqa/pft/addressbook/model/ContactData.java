@@ -10,14 +10,18 @@ public class ContactData {
   private String nickname;
   private String company;
   private String address;
-  private String home;
+  private String allPhones;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
+  private String faxNumber;
+  private String allEmail;
   private String email;
+  private String email2;
   private String notes;
   private String group;
 
-  //public void setId(int id) { this.id = id; }
-
-  public  ContactData setID(int id){
+  public  ContactData setId(int id){
     this.id = id;
     return this;
   }
@@ -52,13 +56,43 @@ public class ContactData {
     return this;
   }
 
-  public ContactData setHome(String home) {
-    this.home = home;
+  public ContactData setAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
+  public ContactData setHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+    return this;
+  }
+
+  public ContactData setMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+    return this;
+  }
+
+  public ContactData setWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
+    return this;
+  }
+
+  public ContactData setFaxNumber(String faxNumber) {
+    this.faxNumber = faxNumber;
+    return this;
+  }
+
+  public ContactData setAllEmail(String email) {
+    this.allEmail = email;
     return this;
   }
 
   public ContactData setEmail(String email) {
     this.email = email;
+    return this;
+  }
+
+  public ContactData setEmail2(String email2) {
+    this.email2 = email2;
     return this;
   }
 
@@ -73,7 +107,6 @@ public class ContactData {
   }
 
   public int getId() { return id; }
-
 
   public String getFirstname() {
     return firstname;
@@ -99,13 +132,25 @@ public class ContactData {
     return address;
   }
 
-  public String getHome() {
-    return home;
+  public String getAllPhones() { return allPhones; }
+
+  public String getHomePhone() {
+    return homePhone;
   }
 
-  public String getEmail() {
-    return email;
+  public String getMobilePhone() { return mobilePhone; }
+
+  public String getWorkPhone() { return workPhone; }
+
+  public String getFaxNumber() { return faxNumber; }
+
+  public String getAllEmail() {
+    return allEmail;
   }
+
+  public String getEmail() { return email; }
+
+  public String getEmail2() { return email2; }
 
   public String getNotes() {
     return notes;
@@ -139,8 +184,8 @@ public class ContactData {
             ", nickname='" + nickname + '\'' +
             ", company='" + company + '\'' +
             ", address='" + address + '\'' +
-            ", home='" + home + '\'' +
-            ", email='" + email + '\'' +
+            ", home='" + homePhone + '\'' +
+            ", email='" + allEmail + '\'' +
             ", notes='" + notes + '\'' +
             ", group='" + group + '\'' +
             '}';

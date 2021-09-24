@@ -8,11 +8,6 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class ContactModificationTest extends TestBase {
 
   @BeforeMethod
@@ -24,9 +19,9 @@ public class ContactModificationTest extends TestBase {
   public void testContactModification() {
     Contacts before = app.contact().all(); //5.6.
     ContactData oldContact = before.iterator().next();
-    ContactData newContact = new ContactData().setID((oldContact).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
+    ContactData newContact = new ContactData().setId((oldContact).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             .setFirstname("Contact").setLastname("Modified").setNickname("Nick").setCompany("MMM")
-            .setAddress("AddressM").setHome("Home").setEmail("email");
+            .setAddress("AddressM").setHomePhone("Home").setAllEmail("email");
     app.contact().modify(newContact);
     app.goTo().homePage();
     Assert.assertEquals(app.contact().getCount(), before.size());

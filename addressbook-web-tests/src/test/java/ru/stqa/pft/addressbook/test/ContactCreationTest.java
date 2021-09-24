@@ -9,9 +9,6 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ContactCreationTest extends TestBase {
@@ -33,13 +30,13 @@ public class ContactCreationTest extends TestBase {
     app.goTo().homePage();
     Contacts before = app.contact().all();
     ContactData contact = new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
-            .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHome("123456789")
-            .setEmail("asdf@mail.ru").setNotes("bla bla").setGroup(String.format("%s", groupName));
+            .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHomePhone("123456789")
+            .setAllEmail("asdf@mail.ru").setNotes("bla bla").setGroup(String.format("%s", groupName));
     app.contact().create(contact);
     app.goTo().homePage();
     Assert.assertEquals(app.contact().getCount(), before.size() + 1);
     Contacts after = app.contact().all();
-    contact.setID(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
+    contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
 
