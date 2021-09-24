@@ -187,11 +187,12 @@ public class ContactHelper extends HelperBase {
       String lastname = cells.get(1).getText();
       String firstname = cells.get(2).getText();
       String adress = cells.get(3).getText();
-      String email = cells.get(4).getText();
+      String allEmails = cells.get(4).getText();
       String allPhones = cells.get(5).getText();
+      String[] emails = cells.get(4).getText().split("\n");
       String[] phones = cells.get(5).getText().split("\n");
       ContactData contact = new ContactData().setId(id).setFirstname(firstname).setLastname(lastname)
-              .setAddress(adress).setAllPhones(allPhones);
+              .setAddress(adress).setAllPhones(allPhones).setEmail(emails[0]).setEmail2(emails[1]);
       contactsCache.add(contact);
     }
     return contactsCache;
