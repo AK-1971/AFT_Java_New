@@ -19,6 +19,7 @@ public class ContactData {
   private String allEmail;
   private String email;
   private String email2;
+  private String email3;
   private String notes;
   private String group;
   public File photo;
@@ -108,6 +109,10 @@ public class ContactData {
     return this;
   }
 
+  public ContactData setEmail3(String email3) {
+    this.email2 = email3;
+    return this;
+  }
   public ContactData setNotes(String notes) {
     this.notes = notes;
     return this;
@@ -163,6 +168,8 @@ public class ContactData {
   public String getEmail() { return email; }
 
   public String getEmail2() { return email2; }
+
+  public String getEmail3() { return email3; }
 
   public String getNotes() {
     return notes;
