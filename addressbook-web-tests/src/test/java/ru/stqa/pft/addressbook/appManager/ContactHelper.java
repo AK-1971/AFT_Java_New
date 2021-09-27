@@ -31,6 +31,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("home"), contactData.getHomePhone());
     type(By.name("email"), contactData.getAllEmail());
     type(By.name("notes"), contactData.getNotes());
+    attach(By.name("photo"), contactData.getPhoto());//объяснение почему создали метод attach в 6.1.
 
     if (itsContactCreation) {//3.8. проверка есть ли в форме кнопка добавления в группу (в модификации контакта ее нет)
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
