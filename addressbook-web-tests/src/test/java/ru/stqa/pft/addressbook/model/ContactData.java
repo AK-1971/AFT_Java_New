@@ -21,7 +21,7 @@ public class ContactData {
   private String email2;
   private String email3;
   private String notes;
-  private String group;
+  private int group;
   public File photo;
 
   public File getPhoto() {
@@ -118,7 +118,7 @@ public class ContactData {
     return this;
   }
 
-  public ContactData setGroup(String group) {
+  public ContactData setGroup(int group) {
     this.group = group;
     return this;
   }
@@ -175,7 +175,7 @@ public class ContactData {
     return notes;
   }
 
-  public String getGroup() {
+  public int getGroup() {
     return group;
   }
 

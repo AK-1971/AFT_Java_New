@@ -4,17 +4,43 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class ContactCreationTest extends TestBase {
 
   String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
+
+  @DataProvider
+  public Iterator<Object[]> validContacts() {
+    List<Object[]> list = new ArrayList<Object[]>();
+    app.goTo().groupPage(); //создаем список из которого берем группу в которую
+    // с помощью setGroup(group.getId() добавим контакт
+    List<GroupData> groups = app.group().list();
+    GroupData group = groups.get(0);
+    File photo = new File("src/test/resources/nafan.jpg");
+
+    list.add(new Object[] {new ContactData().setFirstname("Ivan 1").setLastname("Ivanov 1").setAddress("USSR 1")
+            .setAllPhones("12345_1").setEmail("email_1_@ya.ru").setPhoto(photo).setGroup(group.getId())});
+    list.add(new Object[] {new ContactData().setFirstname("Ivan 2").setLastname("Ivanov 2").setAddress("USSR 2")
+            .setAllPhones("12345_2").setEmail("email_2_@ya.ru").setPhoto(photo).setGroup(group.getId())});
+    list.add(new Object[] {new ContactData().setFirstname("Ivan 3").setLastname("Ivanov 3").setAddress("USSR 3")
+            .setAllPhones("12345_3").setEmail("email_3_@ya.ru").setPhoto(photo).setGroup(group.getId())});
+
+    //list.add(new Object[] {"Ivan 3", "Ivanov 3 ", "USSR 3", "12345_3", "email_3_@ya.ru"});
+
+    return list.iterator();
+  }
+
 
   @BeforeMethod
   public void preconditions() {
@@ -26,15 +52,15 @@ public class ContactCreationTest extends TestBase {
     groupName = group.iterator().next().getGroupName();
   }
 
-  @Test(enabled = true)
-  public void testContactCreation() throws Exception {
+  @Test(dataProvider = "validContacts")
+  public void testContactCreation(ContactData contact) throws Exception {
     app.goTo().homePage();
     Contacts before = app.contact().all();
     File photo = new File("src/test/resources/nafan.jpg");
-    ContactData contact = new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
+    /*ContactData contact = new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
             .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHomePhone("123456789")
             .setAllEmail("vano@mail.ru").setNotes("bla bla").setPhoto(photo)
-            .setGroup(String.format("%s", groupName));
+            .setGroup(String.format("%s", groupName));*/
     app.contact().create(contact);
     app.goTo().homePage();
     Assert.assertEquals(app.contact().getCount(), before.size() + 1);

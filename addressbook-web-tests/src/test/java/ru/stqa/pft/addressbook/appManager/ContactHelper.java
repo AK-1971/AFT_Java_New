@@ -34,7 +34,8 @@ public class ContactHelper extends HelperBase {
     attach(By.name("photo"), contactData.getPhoto());//объяснение почему создали метод attach в 6.1.
 
     if (itsContactCreation) {//3.8. проверка есть ли в форме кнопка добавления в группу (в модификации контакта ее нет)
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      new Select(wd.findElement(By.name("new_group"))).selectByValue("" + contactData.getGroup());
     } else { //3.8.если кнопка добавления в группу на форме модификации появилась - это баг и ниже проводится проверка
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -133,11 +134,12 @@ public class ContactHelper extends HelperBase {
       manager.goTo().groupPage();
       //List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
       Set<GroupData> group = manager.group().all();
-      String groupName = group.iterator().next().getGroupName(); //и передаем его в данные контакта
+      //String groupName = group.iterator().next().getGroupName(); //и передаем его в данные контакта
+      int groupId = group.iterator().next().getId();
       manager.goTo().homePage();
       create(new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
               .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHomePhone("123456789")
-              .setAllEmail("asdf@mail.ru").setNotes( "bla bla").setGroup(String.format("%s", groupName)));
+              .setAllEmail("asdf@mail.ru").setNotes( "bla bla").setGroup(groupId));
       manager.goTo().homePage();
     }
   }

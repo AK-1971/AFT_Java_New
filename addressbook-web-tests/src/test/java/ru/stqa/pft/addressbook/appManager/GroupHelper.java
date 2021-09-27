@@ -109,7 +109,7 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  /*public List<GroupData> list() { // 4.4.
+  public List<GroupData> list() { // 4.4.
     List<GroupData> groups = new ArrayList<GroupData>(); //создаем список групп на странице
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //определяем что ищем (в нашем случае получим только имя)
     for (WebElement element : elements) { //заполняем присутствующими элементами
@@ -119,7 +119,7 @@ public class GroupHelper extends HelperBase {
       groups.add(group); // добавляем в список
     }
     return groups;
-  }*/
+  }
 
   /*public Set<GroupData> all() { // 5.5. вместо метода list
     Set<GroupData> groups = new HashSet<GroupData>(); //создаем список групп на странице
