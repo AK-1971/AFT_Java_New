@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,11 +18,16 @@ import java.util.List;
 public class GroupCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validGroups() {
+  public Iterator<Object[]> validGroups() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    list.add(new Object[] {new GroupData().setName("test_1").setHeader("header_1").setFooter("footer_1")});
-    list.add(new Object[] {new GroupData().setName("test_2").setHeader("header_2").setFooter("footer_2")});
-    list.add(new Object[] {new GroupData().setName("test_3").setHeader("header_3").setFooter("footer_3")});
+    BufferedReader reader = new BufferedReader
+            (new FileReader(new File("src/test/resources/groups.csv"))); //6.5.
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";"); // тот символ что и в генераторе, если %s будут разделяться запятыми, то и здесь запятые
+      list.add(new Object[] {new GroupData().setName(split[0]).setHeader(split[1]).setFooter(split[2])});
+      line = reader.readLine();
+    }
     return list.iterator();
   }
 
@@ -37,5 +43,4 @@ public class GroupCreationTests extends TestBase {
     assertThat(after, equalTo(
             before.withAdded(group.setId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));
   }
-
 }

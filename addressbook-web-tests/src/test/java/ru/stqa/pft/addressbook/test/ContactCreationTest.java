@@ -18,38 +18,37 @@ import java.util.Set;
 
 public class ContactCreationTest extends TestBase {
 
-  String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
+  //String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
 
   @DataProvider
   public Iterator<Object[]> validContacts() {
-    List<Object[]> list = new ArrayList<Object[]>();
     app.goTo().groupPage(); //создаем список из которого берем группу в которую
     // с помощью setGroup(group.getId() добавим контакт
+    app.group().createIfNotExists(); //поскольку провайдер выполняется до before метода, проверяем наличие группы
+    app.goTo().groupPage();
     List<GroupData> groups = app.group().list();
     GroupData group = groups.get(0);
-    File photo = new File("src/test/resources/nafan.jpg");
 
+    List<Object[]> list = new ArrayList<Object[]>();
+    File photo = new File("src/test/resources/nafan.jpg");
     list.add(new Object[] {new ContactData().setFirstname("Ivan 1").setLastname("Ivanov 1").setAddress("USSR 1")
             .setAllPhones("12345_1").setEmail("email_1_@ya.ru").setPhoto(photo).setGroup(group.getId())});
     list.add(new Object[] {new ContactData().setFirstname("Ivan 2").setLastname("Ivanov 2").setAddress("USSR 2")
             .setAllPhones("12345_2").setEmail("email_2_@ya.ru").setPhoto(photo).setGroup(group.getId())});
     list.add(new Object[] {new ContactData().setFirstname("Ivan 3").setLastname("Ivanov 3").setAddress("USSR 3")
             .setAllPhones("12345_3").setEmail("email_3_@ya.ru").setPhoto(photo).setGroup(group.getId())});
-
-    //list.add(new Object[] {"Ivan 3", "Ivanov 3 ", "USSR 3", "12345_3", "email_3_@ya.ru"});
-
     return list.iterator();
   }
 
 
   @BeforeMethod
   public void preconditions() {
-    app.group().createIfNotExists();
-    app.goTo().groupPage();
+    //app.group().createIfNotExists();
+    //app.goTo().groupPage();
     /*List<GroupData> group = app.group().list();//выясняем имя группы в списке (берем первую)
     groupName = group.get(0).getGroupName(); //и передаем его в данные контакта*/
-    Set<GroupData> group = app.group().all();
-    groupName = group.iterator().next().getGroupName();
+    //Set<GroupData> group = app.group().all();
+    //groupName = group.iterator().next().getGroupName();
   }
 
   @Test(dataProvider = "validContacts")
