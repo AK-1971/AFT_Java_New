@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.test;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -61,7 +63,28 @@ public class ContactCreationTest extends TestBase {
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "contactsCSV")
+  @DataProvider
+  public Iterator<Object[]> contactsJSON() throws IOException {
+    BufferedReader reader =
+            new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
+    String json = "";
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
+    
+    //создаем список из которого берем группу в которую с помощью setGroup(group.getId() добавим контакт
+    app.goTo().groupPage();
+    List<GroupData> groups = app.group().list();
+    GroupData group = groups.get(0);
+    return contacts.stream().map((c) -> new Object[]{c.setGroup(group.getId())})
+            .collect(Collectors.toList()).iterator();
+  }
+
+  @Test(dataProvider = "contactsJSON")
   public void testContactCreation(ContactData contactFromProvaider) throws Exception {
     app.goTo().groupPage(); //создаем список из которого берем группу в которую
     // с помощью setGroup(group.getId() добавим контакт
@@ -79,26 +102,6 @@ public class ContactCreationTest extends TestBase {
     contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
-
-  @Test(dataProvider = "contactsXML")
-  public void testContactCreation1(ContactData contactFromProvaider) throws Exception {
-    app.goTo().groupPage(); //создаем список из которого берем группу в которую
-    // с помощью setGroup(group.getId() добавим контакт
-    List<GroupData> groups = app.group().list();
-    GroupData group = groups.get(0);
-
-    app.goTo().homePage();
-    ContactData contact = contactFromProvaider.setGroup(group.getId());
-    Contacts before = app.contact().all();
-    app.contact().create(contact);
-    app.goTo().homePage();
-    Assert.assertEquals(app.contact().getCount(), before.size() + 1);
-    app.goTo().homePage();
-    Contacts after = app.contact().all();
-    contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
-    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
-  }
-
 
   @Test(enabled = false)
   public void currentDirDefinition(){
