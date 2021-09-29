@@ -175,6 +175,8 @@ public class ContactData {
     return notes;
   }
 
+  public int getGroup() { return group; }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -187,11 +189,6 @@ public class ContactData {
   public int hashCode() {
     return Objects.hash(id, firstname, lastname, address);
   }
-
-  public int getGroup() {
-    return group;
-  }
-
 
   @Override
   public String toString() {

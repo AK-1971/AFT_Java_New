@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.test;
 
+import com.thoughtworks.xstream.XStream;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,11 +15,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GroupCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validGroups() throws IOException {
+  public Iterator<Object[]> groupsCSV() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
     BufferedReader reader = new BufferedReader
             (new FileReader(new File("src/test/resources/groups.csv"))); //6.5.
@@ -31,16 +33,34 @@ public class GroupCreationTests extends TestBase {
     return list.iterator();
   }
 
-  @Test(dataProvider = "validGroups")
+  @DataProvider
+  public Iterator<Object[]> groupsXML() throws IOException { //6.6.
+    BufferedReader reader = new BufferedReader
+            (new FileReader(new File("src/test/resources/groups.xml")));
+    String xml = "";
+    String line = reader.readLine();
+    while (line != null) {
+      xml += line;
+      line = reader.readLine();
+    }
+    XStream xstream = new XStream();
+    xstream.alias("group", GroupData.class); // не стал обрабатывать аннотации в классе GroupData
+    xstream.omitField(GroupData.class, "id"); // как у Алексея, чтобы не загромождать
+    List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+  }
+
+
+  @Test(dataProvider = "groupsXML")
   public void testGroupCreation(GroupData group) throws Exception {
     app.goTo().groupPage();
     Groups before = app.group().all(); //5.6. меняем также тип метода all
-    //GroupData group = new GroupData().setName("test1").setHeader("header1").setFooter("footer1");
     app.group().create(group);
     assertThat(app.group().getCount(), equalTo(before.size() + 1));
     Groups after = app.group().all();
-    //group.setId(after.stream().mapToInt((g)-> g.getId()).max().getAsInt());
     assertThat(after, equalTo(
             before.withAdded(group.setId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));
   }
+
+
 }
