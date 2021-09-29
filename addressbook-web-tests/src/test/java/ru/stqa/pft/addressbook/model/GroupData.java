@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 public class GroupData {
@@ -11,6 +13,7 @@ public class GroupData {
     return this;
   }
 
+  @Expose
   private String group_name;
   public String getGroupName() {
     return group_name;
@@ -20,6 +23,7 @@ public class GroupData {
     return this;
   }
 
+  @Expose
   private String header;
   public String getHeader() {
     return header;
@@ -29,6 +33,7 @@ public class GroupData {
     return this;
   }
 
+  @Expose
   private String footer;
   public String getFooter() {
     return footer;
