@@ -56,12 +56,12 @@ public class ContactDataGenerator {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation()
             .registerTypeAdapter(File.class, new MyFileSerializer()).create();
     String json = gson.toJson(contacts);
-    Writer writer = new FileWriter(file);
+    try (Writer writer = new FileWriter(file)){  //try - обьяснение в 6.8.
     writer.write(json);
-    writer.close();
+    }
   }
 
-  public class MyFileSerializer implements JsonSerializer<File> {
+  public class MyFileSerializer implements JsonSerializer<File> { //6.7.
     public JsonElement serialize(File src, Type typeOfSrc, JsonSerializationContext context) {
       JsonObject obj = new JsonObject();
       obj.add("path", new JsonPrimitive(src.getPath()));
@@ -75,19 +75,19 @@ public class ContactDataGenerator {
     //xstream.processAnnotations(GroupData.class); если делать так (как у АБ в 6.6.), то тогда в GorupData надо менять аннотации
     xstream.omitField(ContactData.class, "id");
     String xml = xstream.toXML(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)){
+      writer.write(xml);
+    }
   }
 
   private void saveAsCSV(List<ContactData> contacts, File file) throws IOException {
     System.out.println(new File(".").getAbsolutePath());
     Writer writer = new FileWriter(file);
-    for (ContactData contact : contacts) {
+    for (ContactData contact : contacts) { //"%s;%s;%s;%s;%s\n" если делать с пробелами, то пробелы добавятся в имена
       writer.write(String.format("%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(),
               contact.getAllPhones(), contact.getAddress(), contact.getAllEmail()));
     }
-    writer.close();
+    writer.close(); //если не использовать try - тогда надо обязательно закрывать writer
   }
 
   private List<ContactData> generateContacts(int count) {

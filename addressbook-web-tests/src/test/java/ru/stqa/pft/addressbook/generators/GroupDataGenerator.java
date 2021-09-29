@@ -54,9 +54,9 @@ public class GroupDataGenerator { //создание см. 6.2.
   private void saveAsJson(List<GroupData> groups, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     String json = gson.toJson(groups);
-    Writer writer = new FileWriter(file);
+    try (Writer writer = new FileWriter(file)) { //конструкция try - 6.8.
     writer.write(json);
-    writer.close();
+    }
   }
 
   private void saveAsXml(List<GroupData> groups, File file) throws IOException {
@@ -65,9 +65,9 @@ public class GroupDataGenerator { //создание см. 6.2.
     //xstream.processAnnotations(GroupData.class); если делать так (как у АБ в 6.6.), то тогда в GorupData надо менять аннотации
     xstream.omitField(GroupData.class, "id");
     String xml = xstream.toXML(groups);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
   private void saveAsCsv(List<GroupData> groups, File file) throws IOException {
