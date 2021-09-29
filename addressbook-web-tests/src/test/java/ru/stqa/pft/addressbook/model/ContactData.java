@@ -29,6 +29,7 @@ public class ContactData {
   private String email3;
   private String notes;
   private int group;
+  @Expose
   public File photo;
 
   public File getPhoto() {

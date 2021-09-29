@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.generators;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.google.gson.*;
 import com.thoughtworks.xstream.XStream;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +45,27 @@ public class ContactDataGenerator {
       saveAsCSV(contacts, new File(file));
     } else if (format.equals("xml")) {
       saveAsXML(contacts, new File(file));
+    } else if (format.equals("json")) {
+      saveAsJson(contacts, new File(file));
     } else {
       System.out.println("Unrecognazed format " + format);
+    }
+  }
+
+  private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation()
+            .registerTypeAdapter(File.class, new MyFileSerializer()).create();
+    String json = gson.toJson(contacts);
+    Writer writer = new FileWriter(file);
+    writer.write(json);
+    writer.close();
+  }
+
+  public class MyFileSerializer implements JsonSerializer<File> {
+    public JsonElement serialize(File src, Type typeOfSrc, JsonSerializationContext context) {
+      JsonObject obj = new JsonObject();
+      obj.add("path", new JsonPrimitive(src.getPath()));
+      return obj;
     }
   }
 
@@ -72,10 +93,12 @@ public class ContactDataGenerator {
 
   private List<ContactData> generateContacts(int count) {
     List<ContactData> contacts = new ArrayList<ContactData>();
+    File photo = new File("src/test/resources/nafan.jpg");
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactData().setFirstname(String.format("FilesName_%s", i))
               .setLastname(String.format("LastName_%s", i)).setAllPhones(String.format("Phone_%s", i))
-              .setAddress(String.format("adress_%s", i)).setAllEmail(String.format("email_%s", i)));
+              .setAddress(String.format("adress_%s", i)).setAllEmail(String.format("email_%s", i))
+              .setPhoto(photo));
     }
     return contacts;
   }

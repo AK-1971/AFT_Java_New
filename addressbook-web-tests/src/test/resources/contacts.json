@@ -1,0 +1,32 @@
+[
+  {
+    "firstname": "FilesName_0",
+    "lastname": "LastName_0",
+    "address": "adress_0",
+    "allPhones": "Phone_0",
+    "allEmail": "email_0",
+    "photo": {
+      "path": "src\\test\\resources\\nafan.jpg"
+    }
+  },
+  {
+    "firstname": "FilesName_1",
+    "lastname": "LastName_1",
+    "address": "adress_1",
+    "allPhones": "Phone_1",
+    "allEmail": "email_1",
+    "photo": {
+      "path": "src\\test\\resources\\nafan.jpg"
+    }
+  },
+  {
+    "firstname": "FilesName_2",
+    "lastname": "LastName_2",
+    "address": "adress_2",
+    "allPhones": "Phone_2",
+    "allEmail": "email_2",
+    "photo": {
+      "path": "src\\test\\resources\\nafan.jpg"
+    }
+  }
+]
