@@ -26,7 +26,7 @@ public class GroupCreationTests extends TestBase {
             (new FileReader(new File("src/test/resources/groups.csv"))); //6.5.
     String line = reader.readLine();
     while (line != null) {
-      String[] split = line.split(";"); // тот символ что и в генераторе, если %s будут разделяться запятыми, то и здесь запятые
+      String[] split = line.split("; "); // тот символ что и в генераторе, если %s будут разделяться запятыми, то и здесь запятые
       list.add(new Object[] {new GroupData().setName(split[0]).setHeader(split[1]).setFooter(split[2])});
       line = reader.readLine();
     }

@@ -21,7 +21,7 @@ public class ContactDataGenerator {
   @Parameter(names = "-f", description = "Target file") //6.3.
   public String file;
 
-  @Parameter(names = "-d", description = "Data format") //6.3.
+  @Parameter(names = "-d", description = "Data format") //6.6.
   public String format;
 
 
@@ -64,7 +64,7 @@ public class ContactDataGenerator {
     System.out.println(new File(".").getAbsolutePath());
     Writer writer = new FileWriter(file);
     for (ContactData contact : contacts) {
-      writer.write(String.format("%s; %s; %s; %s; %s\n", contact.getFirstname(), contact.getLastname(),
+      writer.write(String.format("%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(),
               contact.getAllPhones(), contact.getAddress(), contact.getAllEmail()));
     }
     writer.close();

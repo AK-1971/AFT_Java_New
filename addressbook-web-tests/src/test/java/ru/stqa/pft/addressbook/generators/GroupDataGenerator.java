@@ -62,7 +62,7 @@ public class GroupDataGenerator { //создание см. 6.2.
     System.out.println(new File(".").getAbsolutePath());
     Writer writer = new FileWriter(file);
     for (GroupData group : groups) {
-      writer.write(String.format("%s; %s; %s\n", group.getGroupName(), group.getHeader(), group.getFooter()));
+      writer.write(String.format("%s;%s;%s\n", group.getGroupName(), group.getHeader(), group.getFooter()));
     }
     writer.close();
   }
