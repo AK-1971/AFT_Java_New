@@ -8,6 +8,8 @@ import org.hamcrest.MatcherAssert;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GroupCreationTests extends TestBase {
+
+  Logger logger = LoggerFactory.getLogger(GroupCreationTests.class);
 
   @DataProvider
   public Iterator<Object[]> groupsCSV() throws IOException {
@@ -78,6 +82,5 @@ public class GroupCreationTests extends TestBase {
     assertThat(after, equalTo(
             before.withAdded(group.setId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));
   }
-
 
 }
