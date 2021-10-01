@@ -1,11 +1,20 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity //эта аннотация объявляет класс привязанным к базе
+@Table(name="group_list")
 public class GroupData {
 
+  @Id
+  @Column(name="group_id")
   private int id = Integer.MAX_VALUE;
   public int getId() { return id; }
   public GroupData setId(int id) {
@@ -14,6 +23,7 @@ public class GroupData {
   }
 
   @Expose
+  @Column(name = "group_name")
   private String group_name;
   public String getGroupName() {
     return group_name;
@@ -24,6 +34,8 @@ public class GroupData {
   }
 
   @Expose
+  @Column(name = "group_header")
+  @Type(type = "text")
   private String header;
   public String getHeader() {
     return header;
@@ -34,6 +46,8 @@ public class GroupData {
   }
 
   @Expose
+  @Column(name = "group_footer")
+  @Type(type = "text")
   private String footer;
   public String getFooter() {
     return footer;
