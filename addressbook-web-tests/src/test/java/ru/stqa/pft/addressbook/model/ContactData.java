@@ -70,6 +70,8 @@ public class ContactData {
     this.photo = photo;
     return this;
   }*/
+  @Column(name = "photo")
+  @Type(type = "text")
   private String photoPath;
 
   public ContactData setPhotoPath(String photoPath) {
