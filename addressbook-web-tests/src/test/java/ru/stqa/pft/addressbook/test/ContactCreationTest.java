@@ -40,7 +40,7 @@ public class ContactCreationTest extends TestBase {
     while (line != null) {
       String[] split = line.split(";"); // тот символ что и в генераторе, если %s будут разделяться запятыми, то и здесь запятые
       list.add(new Object[] {new ContactData().setFirstname(split[0]).setLastname(split[1]).setAllPhones(split[2])
-              .setAddress(split[3]).setAllEmail(split[4]).setPhoto(photo).setGroup(group.getId())});//.setPhoto(new File(split[5]))});
+              .setAddress(split[3]).setAllEmail(split[4]).setPhotoPath(photo.getPath()).setGroup(group.getId())});//.setPhoto(new File(split[5]))});
       line = reader.readLine();
     }
     return list.iterator();

@@ -1,35 +1,65 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 
+@Entity
+@Table(name = "addressbook") //привязка к базе
 public class ContactData {
+
+  @Id
   private int id = Integer.MAX_VALUE; //4.7. и в 4.10 - перенос сюда см. 5.4.
   @Expose
+  @Column(name = "firstName")
   private String firstname;
+  @Column(name = "middlename")
   private String middlename;
   @Expose
+  @Column(name = "lastName")
   private String lastname;
+  @Column(name = "nickname")
   private String nickname;
+  @Column(name = "company")
   private String company;
   @Expose
+  @Column(name = "address")
+  @Type(type = "text")
   private String address;
   @Expose
+  @Transient
   private String allPhones;
+  @Column(name = "home")
+  @Type(type = "text")
   private String homePhone;
+  @Column(name = "mobile")
+  @Type(type = "text")
   private String mobilePhone;
+  @Column(name = "work")
+  @Type(type = "text")
   private String workPhone;
+  @Column(name = "fax")
+  @Type(type = "text")
   private String faxNumber;
   @Expose
+  @Transient
   private String allEmail;
-  private String email;
-  private String email2;
-  private String email3;
-  private String notes;
-  private int group;
   @Expose
+  @Column(name = "email")
+  @Type(type = "text")
+  private String email;
+  @Transient
+  private String email2;
+  @Transient
+  private String email3;
+  @Transient
+  private String notes;
+  @Transient
+  private int group;
+  /*@Expose
   public File photo;
 
   public File getPhoto() {
@@ -39,7 +69,15 @@ public class ContactData {
   public ContactData setPhoto(File photo) {
     this.photo = photo;
     return this;
+  }*/
+  private String photoPath;
+
+  public ContactData setPhotoPath(String photoPath) {
+    this.photoPath = photoPath;
+    return this;
   }
+
+  public File getPhotoPath() { return new File(photoPath); }
 
 
   public  ContactData setId(int id){
@@ -186,6 +224,16 @@ public class ContactData {
   public int getGroup() { return group; }
 
   @Override
+  public String toString() {
+    return "ContactData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", address='" + address + '\'' +
+            '}';
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -196,23 +244,6 @@ public class ContactData {
   @Override
   public int hashCode() {
     return Objects.hash(id, firstname, lastname, address);
-  }
-
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id='" + id + '\'' +
-            ", firstname='" + firstname + '\'' +
-            ", middlename='" + middlename + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", nickname='" + nickname + '\'' +
-            ", company='" + company + '\'' +
-            ", address='" + address + '\'' +
-            ", home='" + homePhone + '\'' +
-            ", email='" + allEmail + '\'' +
-            ", notes='" + notes + '\'' +
-            ", group='" + group + '\'' +
-            '}';
   }
 
 }

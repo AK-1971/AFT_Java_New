@@ -97,7 +97,7 @@ public class ContactDataGenerator {
       contacts.add(new ContactData().setFirstname(String.format("FilesName_%s", i))
               .setLastname(String.format("LastName_%s", i)).setAllPhones(String.format("Phone_%s", i))
               .setAddress(String.format("adress_%s", i)).setAllEmail(String.format("email_%s", i))
-              .setPhoto(photo));
+              .setPhotoPath(photo.getPath()));
     }
     return contacts;
   }
