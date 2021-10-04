@@ -21,11 +21,11 @@ public class ContactDeletionTest extends TestBase {
 
   @Test
   public void testContactDeletion() throws Exception {
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     ContactData deletedContact = before.iterator().next();
     app.contact().delete(deletedContact);
     Assert.assertEquals(app.contact().getCount(), before.size() - 1);
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     //before.remove(deletedContact);
     /*for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член упорядоченной коллекции
       Assert.assertEquals(before.get(i), after.get(i)); так работал до того как list() поменял аll()

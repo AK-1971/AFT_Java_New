@@ -16,7 +16,21 @@ public class ContactModificationTest extends TestBase {
   }
 
   @Test
-  public void testContactModification() {
+  public void testContactModificationDB() {
+    Contacts before = app.db().contacts(); //7.5.
+    ContactData oldContact = before.iterator().next();
+    ContactData newContact = new ContactData().setId((oldContact).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
+            .setFirstname("Contact").setLastname("Modified").setNickname("Nick").setCompany("MMM")
+            .setAddress("AddressM").setHomePhone("Home").setAllEmail("email");
+    app.contact().modify(newContact);
+    app.goTo().homePage();
+    Assert.assertEquals(app.contact().getCount(), before.size());
+    Contacts after = app.db().contacts();
+    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldContact).withAdded(newContact)));
+  }
+
+  @Test(enabled = false)
+  public void testContactModificationWeb() {//тест упадет если сгенерировано полей для сравнения больше чем показано на странице
     Contacts before = app.contact().all(); //5.6.
     ContactData oldContact = before.iterator().next();
     ContactData newContact = new ContactData().setId((oldContact).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
@@ -32,6 +46,7 @@ public class ContactModificationTest extends TestBase {
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldContact).withAdded(newContact)));
 
   }
+
 
 
 }

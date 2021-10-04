@@ -3,8 +3,7 @@ package ru.stqa.pft.addressbook.test;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -73,11 +72,22 @@ public class GroupCreationTests extends TestBase {
 
 
   @Test(dataProvider = "groupsJson")
-  public void testGroupCreation(GroupData group) throws Exception {
+  public void testGroupCreationDB(GroupData group) throws Exception {
+    app.goTo().groupPage();
+    Groups before = app.db().groups(); //7.4. меняем также тип метода all
+    app.group().create(group);
+    assertThat(app.group().count(), equalTo(before.size() + 1));
+    Groups after = app.db().groups();
+    assertThat(after, equalTo(
+            before.withAdded(group.setId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));
+  }
+
+  @Test(dataProvider = "groupsJson", enabled = false)//этот тест упадет, т.к. сейчас перегенерировал сравнение по всем полям, а в web они не все отображены, а в базе - да
+  public void testGroupCreationWeb(GroupData group) throws Exception {
     app.goTo().groupPage();
     Groups before = app.group().all(); //5.6. меняем также тип метода all
     app.group().create(group);
-    assertThat(app.group().getCount(), equalTo(before.size() + 1));
+    assertThat(app.group().count(), equalTo(before.size() + 1));
     Groups after = app.group().all();
     assertThat(after, equalTo(
             before.withAdded(group.setId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));

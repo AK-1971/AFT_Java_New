@@ -79,7 +79,7 @@ public class ContactCreationTest extends TestBase {
     List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
     
     //создаем список из которого берем группу в которую с помощью setGroup(group.getId() добавим контакт
-    app.goTo().groupPage();
+    app.goTo().groupPage(); //
     List<GroupData> groups = app.group().list();
     GroupData group = groups.get(0);
     return contacts.stream().map((c) -> new Object[]{c.setGroup(group.getId())})
@@ -87,7 +87,26 @@ public class ContactCreationTest extends TestBase {
   }
 
   @Test(dataProvider = "contactsJSON")
-  public void testContactCreation(ContactData contactFromProvaider) throws Exception {
+  public void testContactCreationDB(ContactData contactFromProvaider) throws Exception {
+    app.goTo().groupPage(); //создаем список из которого берем группу в которую
+    // с помощью setGroup(group.getId() добавим контакт
+    List<GroupData> groups = app.group().list();
+    GroupData group = groups.get(0);
+
+    app.goTo().homePage();
+    ContactData contact = contactFromProvaider.setGroup(group.getId());
+    Contacts before = app.db().contacts();
+    app.contact().create(contact);
+    app.goTo().homePage();
+    Assert.assertEquals(app.contact().getCount(), before.size() + 1);
+    app.goTo().homePage();
+    Contacts after = app.db().contacts();
+    contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
+    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
+  }
+
+  @Test(dataProvider = "contactsJSON", enabled = false)
+  public void testContactCreationWeb(ContactData contactFromProvaider) throws Exception {
     app.goTo().groupPage(); //создаем список из которого берем группу в которую
     // с помощью setGroup(group.getId() добавим контакт
     List<GroupData> groups = app.group().list();
@@ -104,6 +123,7 @@ public class ContactCreationTest extends TestBase {
     contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
+
 
   @Test(enabled = false)
   public void currentDirDefinition(){

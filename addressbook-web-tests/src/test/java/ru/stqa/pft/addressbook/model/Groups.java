@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.common.collect.ForwardingSet;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,10 +18,8 @@ public class Groups extends ForwardingSet<GroupData> { //5.6.
     this.delegate = new HashSet<GroupData>();
   }
 
-  @Override
-  protected Set<GroupData> delegate() {
-    return delegate;
-  }
+  public Groups(Collection<GroupData> groups) {this.delegate = new HashSet<GroupData>(groups);} //7.4. на 06.50
+
   public Groups withAdded(GroupData group) { //в этом методе мы делаем копию delegate и добавляем в нее объекта (group)- это даст возможность работать и с новым объектом и старым, неизменённым множеством
     Groups groups = new Groups(this);//создаем копию - новое множество с помощью конструктора
     groups.add(group); //в эту копию добавляем объект
@@ -33,5 +32,9 @@ public class Groups extends ForwardingSet<GroupData> { //5.6.
     return groups; //возвращаем эту копию с удаленной группой
   }
 
+  @Override
+  protected Set<GroupData> delegate() {
+    return delegate;
+  }
 
 }

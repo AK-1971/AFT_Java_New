@@ -23,6 +23,7 @@ public class AppsManager {
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
+  private DbHelper dbHelper;
 
   public AppsManager(String browser) {
     this.browser = browser;
@@ -41,6 +42,8 @@ public class AppsManager {
     return contactHelper;
   }
 
+  public DbHelper db() { return dbHelper; } //7.4.
+
   public void init() throws IOException {
     String target = System.getProperty("target", "local"); //6.10 использование данных из файла конфигурации
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));// 6.10. local
@@ -49,6 +52,9 @@ public class AppsManager {
     } else if (browser.equals(BrowserType.CHROME)) {wd = new ChromeDriver();
     } else if (browser.equals(BrowserType.IE)) {wd = new InternetExplorerDriver();
     } else wd = new OperaDriver();*/
+
+    dbHelper = new DbHelper();
+
     switch (browser) {
       case BrowserType.FIREFOX:
         wd = new FirefoxDriver();

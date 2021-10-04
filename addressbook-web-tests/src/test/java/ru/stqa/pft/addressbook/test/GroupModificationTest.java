@@ -8,10 +8,8 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupModificationTest extends TestBase {
 
@@ -20,8 +18,23 @@ public class GroupModificationTest extends TestBase {
     app.group().createIfNotExists();
   }
 
-  @Test
-  public void testGroupModification() {
+  @Test(enabled = true)
+  public void testGroupModificationDB() {
+    Groups before = app.db().groups();
+    GroupData modifiedGroup = before.iterator().next();
+    GroupData group = new GroupData()
+            .setId(modifiedGroup.getId()).setName("test1Mod").setHeader( "test2Mod")
+            .setFooter("test3Mod");
+    app.goTo().groupPage();
+    app.group().modify(group);
+
+    assertThat(app.group().count(), equalTo(before.size()));
+    Groups after = app.db().groups();
+    assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
+  }
+
+  @Test(enabled = false)
+  public void testGroupModificationWeb() {//этот тест упадет, т.к. сейчас перегенерировал сравнение по всем полям, в web они не все отображены, а в базе - да
     app.goTo().groupPage();
     Groups before = app.group().all(); //5.6.
     GroupData oldGroup = before.iterator().next();
@@ -29,12 +42,12 @@ public class GroupModificationTest extends TestBase {
     GroupData newGroup = new GroupData().setId(oldGroup.getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             .setName("testModifyed").setHeader("HeaderModifyed").setFooter("FooterModifyed");
     app.group().modify(newGroup);
-    Assert.assertEquals(app.group().getCount(), before.size());
+    Assert.assertEquals(app.group().count(), before.size());
     Groups after = app.group().all();
     /*before.remove(oldGroup);
     before.add(newGroup);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));*/
-    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldGroup).withAdded(newGroup)));
+    assertThat(after, equalTo(before.withOut(oldGroup).withAdded(newGroup)));
   }
 
 }
