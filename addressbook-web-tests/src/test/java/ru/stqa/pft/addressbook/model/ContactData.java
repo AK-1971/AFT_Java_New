@@ -81,6 +81,19 @@ public class ContactData {
 
   public File getPhotoPath() { return new File(photoPath); }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, middlename, lastname, nickname, company, address, mobilePhone, email);
+  }
+
   public File getPhoto() {
     return new File(photoPath);
 
@@ -242,19 +255,6 @@ public class ContactData {
             ", lastname='" + lastname + '\'' +
             ", address='" + address + '\'' +
             '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(address, that.address);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, address);
   }
 
 }

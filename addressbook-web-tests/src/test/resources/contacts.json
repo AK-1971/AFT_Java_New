@@ -5,19 +5,5 @@
     "address": "adress_0",
     "allPhones": "Phone_0",
     "allEmail": "email_0"
-  },
-  {
-    "firstname": "FilesName_1",
-    "lastname": "LastName_1",
-    "address": "adress_1",
-    "allPhones": "Phone_1",
-    "allEmail": "email_1"
-  },
-  {
-    "firstname": "FilesName_2",
-    "lastname": "LastName_2",
-    "address": "adress_2",
-    "allPhones": "Phone_2",
-    "allEmail": "email_2"
   }
 ]

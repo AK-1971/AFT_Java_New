@@ -103,8 +103,9 @@ public class ContactDataGenerator {
     File photo = new File("src/test/resources/nafan.jpg");
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactData().setFirstname(String.format("FilesName_%s", i))
-              .setLastname(String.format("LastName_%s", i)).setAllPhones(String.format("Phone_%s", i))
-              .setAddress(String.format("adress_%s", i)).setAllEmail(String.format("email_%s", i))
+              .setLastname(String.format("LastName_%s", i)).setNickname(String.format("NickName_%s", i))
+              .setAllPhones(String.format("Phone_%s", i)).setAddress(String.format("adress_%s", i))
+              .setAllEmail(String.format("email_%s", i))
               .setPhotoPath(photo.getPath()));
               //.setPhotoPath(photo)); вариант (!?!) когда в сеттере передается файл
     }
