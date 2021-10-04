@@ -69,10 +69,18 @@ public class ContactDataGenerator {
     }
   }
 
+ /* private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+    String json = gson.toJson(contacts);
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
+    }
+  }*/ //Вариант (!?!) без сериализатора - если делать так, то изменить CpntactData и СontactCreation
+
   private void saveAsXML(List<ContactData> contacts, File file) throws IOException {//6.6.
     XStream xstream = new XStream();
     xstream.alias("contact", ContactData.class);
-    //xstream.processAnnotations(GroupData.class); если делать так (как у АБ в 6.6.), то тогда в GorupData надо менять аннотации
+    //xstream.processAnnotations(GroupData.class); если делать так (как у АБ в 6.6.), то тогда в GroupData надо менять аннотации
     xstream.omitField(ContactData.class, "id");
     String xml = xstream.toXML(contacts);
     try (Writer writer = new FileWriter(file)){
@@ -98,6 +106,7 @@ public class ContactDataGenerator {
               .setLastname(String.format("LastName_%s", i)).setAllPhones(String.format("Phone_%s", i))
               .setAddress(String.format("adress_%s", i)).setAllEmail(String.format("email_%s", i))
               .setPhotoPath(photo.getPath()));
+              //.setPhotoPath(photo)); вариант (!?!) когда в сеттере передается файл
     }
     return contacts;
   }

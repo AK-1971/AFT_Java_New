@@ -81,6 +81,15 @@ public class ContactData {
 
   public File getPhotoPath() { return new File(photoPath); }
 
+  public File getPhoto() {
+    return new File(photoPath);
+
+  }
+
+ /* public ContactData setPhotoPath(File photoPath) {
+    this.photoPath = photoPath.getPath();
+    return this;
+  }*/ //вариант (!?!) когда передаем аргументом файл
 
   public  ContactData setId(int id){
     this.id = id;
