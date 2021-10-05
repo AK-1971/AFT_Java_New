@@ -21,7 +21,7 @@ public class ContactModificationTest extends TestBase {
     ContactData oldContact = before.iterator().next();
     ContactData newContact = new ContactData().setId((oldContact).getId()) //4.7. на 11.00 сохраняем индекс модифицируемого элемента
             .setFirstname("Contact").setLastname("Modified").setNickname("Nick").setCompany("MMM")
-            .setAddress("AddressM").setMobilePhone("Mobile").setEmail("email");
+            .setAddress("AddressM").setMobilePhone("Mobile").setAllEmail("email");
     app.contact().modify(newContact);
     app.goTo().homePage();
     Assert.assertEquals(app.contact().getCount(), before.size());

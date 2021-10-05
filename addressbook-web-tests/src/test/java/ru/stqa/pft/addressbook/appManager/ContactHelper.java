@@ -33,8 +33,8 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("work"), contactData.getWorkPhone());
     type(By.name("fax"), contactData.getFaxNumber());
-    //type(By.name("email"), contactData.getAllEmail()); это для ContactFeateres - лекции 5.9 - 5.11
-    type(By.name("email"), contactData.getEmail());
+    type(By.name("email"), contactData.getAllEmail()); //это для ContactFeateres - лекции 5.9 - 5.11
+    //type(By.name("email"), contactData.getEmail());
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("email3"), contactData.getEmail3());
     type(By.name("homepage"), contactData.getHomepage());
@@ -161,8 +161,8 @@ public class ContactHelper extends HelperBase {
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
-
-    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String allEmail = wd.findElement(By.name("email")).getAttribute("value");
+    //String email = wd.findElement(By.name("email")).getAttribute("value");
     String email2 = wd.findElement(By.name("email2")).getAttribute("value");
     String email3 = wd.findElement(By.name("email3")).getAttribute("value");
 //String email3 = wd.findElement(By.name("email3")).getAttribute("value");
@@ -171,7 +171,7 @@ public class ContactHelper extends HelperBase {
     return new ContactData().setId(contact.getId()).setFirstname(firstname).setLastname(lastname)
             .setNickname(nickname).setCompany(company)
             .setAddress(adress).setHomePhone(home).setMobilePhone(mobile).setWorkPhone(work)
-            .setEmail(email).setEmail2(email2).setEmail3(email3);
+            .setEmail(allEmail).setEmail2(email2).setEmail3(email3);
   }
 
   private void initContactModifyByID(int id) { //5.10

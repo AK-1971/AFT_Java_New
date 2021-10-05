@@ -107,7 +107,7 @@ public class ContactDataGenerator {
               .setLastname(String.format("LastName_%s", i)).setNickname(String.format("NickName_%s", i))
               .setCompany(String.format("Company_%s", i))
               .setMobilePhone(String.format("Phone_%s", i)).setAddress(String.format("adress_%s", i))
-              .setEmail(String.format("email_%s", i))
+              .setAllEmail(String.format("email_%s", i))
               //.setPhotoPath(photo.getPath()));
               .setPhotoPath(photo)); //вариант (!?!) когда в сеттере передается файл
     }

@@ -59,12 +59,13 @@ public class ContactData {
   @Column(name = "fax")
   @Type(type = "text")
   private String faxNumber;
-  @Expose
-  @Transient
-  private String allEmail;
+
   @Expose
   @Column(name = "email")
   @Type(type = "text")
+  private String allEmail;
+  @Expose
+  @Transient
   private String email;
   @Transient
   private String email2;
@@ -96,19 +97,6 @@ public class ContactData {
   }
 
   public File getPhotoPath() { return new File(photoPath); }*/
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email);
-  }
 
   public File getPhotoPath() {
     if (photoPath != null) {
@@ -271,6 +259,19 @@ public class ContactData {
   }
 
   public int getGroup() { return group; }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(allEmail, that.allEmail);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname, nickname, company, address, allEmail);
+  }
 
   @Override
   public String toString() {
