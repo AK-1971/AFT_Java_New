@@ -97,8 +97,26 @@ public class ContactData {
 
   public File getPhotoPath() { return new File(photoPath); }*/
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email) && Objects.equals(photoPath, that.photoPath);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email, photoPath);
+  }
+
   public File getPhotoPath() {
-    return new File(photoPath);
+    if (photoPath != null) {
+      return new File(photoPath);
+    } else {
+      return null;
+    }
+    //return new File(photoPath);
   }
 
   public ContactData setPhotoPath(File photoPath) {
@@ -170,19 +188,6 @@ public class ContactData {
   public ContactData setFaxNumber(String faxNumber) {
     this.faxNumber = faxNumber;
     return this;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email);
   }
 
   public ContactData setAllEmail(String email) {
