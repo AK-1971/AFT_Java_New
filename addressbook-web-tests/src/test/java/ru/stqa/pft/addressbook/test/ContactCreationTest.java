@@ -105,7 +105,8 @@ public class ContactCreationTest extends TestBase {
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
 
-  @Test(dataProvider = "contactsJSON", enabled = false)
+  // тест упадет, потому что сгенерированы поля которых нет на веб странице чтобы заработал надо перегенерировать
+  @Test(dataProvider = "contactsJSON", enabled = false) // equal&hascode в ContactData только на то что отображается в web
   public void testContactCreationWeb(ContactData contactFromProvaider) throws Exception {
     app.goTo().groupPage(); //создаем список из которого берем группу в которую
     // с помощью setGroup(group.getId() добавим контакт

@@ -92,8 +92,9 @@ public class ContactDataGenerator {
     System.out.println(new File(".").getAbsolutePath());
     Writer writer = new FileWriter(file);
     for (ContactData contact : contacts) { //"%s;%s;%s;%s;%s\n" если делать с пробелами, то пробелы добавятся в имена
-      writer.write(String.format("%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(),
-              contact.getAllPhones(), contact.getAddress(), contact.getAllEmail()));
+      writer.write(String.format("%s;%s;%s;%s;%s;%s,%s\n", contact.getFirstname(), contact.getLastname(),
+              contact.getNickname(), contact.getHomePhone(), contact.getAddress(), contact.getEmail(),
+              contact.getPhotoPath()));
     }
     writer.close(); //если не использовать try - тогда надо обязательно закрывать writer
   }

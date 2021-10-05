@@ -12,23 +12,35 @@ import java.util.Objects;
 public class ContactData {
 
   @Id
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE; //4.7. и в 4.10 - перенос сюда см. 5.4.
+
   @Expose
   @Column(name = "firstName")
   private String firstname;
+
   @Column(name = "middlename")
   private String middlename;
+
   @Expose
   @Column(name = "lastName")
   private String lastname;
+
   @Column(name = "nickname")
   private String nickname;
+
   @Column(name = "company")
   private String company;
+
+  @Column(name = "homepage")
+  @Type(type = "text")
+  private String homepage;
+
   @Expose
   @Column(name = "address")
   @Type(type = "text")
   private String address;
+
   @Expose
   @Transient
   private String allPhones;
@@ -81,23 +93,9 @@ public class ContactData {
 
   public File getPhotoPath() { return new File(photoPath); }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, middlename, lastname, nickname, company, address, mobilePhone, email);
-  }
-
-  public File getPhoto() {
+  /*public File getPhoto() {
     return new File(photoPath);
-
-  }
+  }*/
 
  /* public ContactData setPhotoPath(File photoPath) {
     this.photoPath = photoPath.getPath();
@@ -133,6 +131,12 @@ public class ContactData {
     this.company = company;
     return this;
   }
+
+  public ContactData setHomepage(String homepage) {
+    this.homepage = homepage;
+    return this;
+  }
+  public String getHomepage() {return homepage;}
 
   public ContactData setAddress(String address) {
     this.address = address;
@@ -246,6 +250,19 @@ public class ContactData {
   }
 
   public int getGroup() { return group; }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(address, that.address);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname, address);
+  }
 
   @Override
   public String toString() {
