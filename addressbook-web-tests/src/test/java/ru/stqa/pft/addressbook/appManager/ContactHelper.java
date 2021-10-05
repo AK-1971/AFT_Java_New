@@ -33,7 +33,8 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("work"), contactData.getWorkPhone());
     type(By.name("fax"), contactData.getFaxNumber());
-    type(By.name("email"), contactData.getAllEmail());
+    //type(By.name("email"), contactData.getAllEmail()); это для ContactFeateres - лекции 5.9 - 5.11
+    type(By.name("email"), contactData.getEmail());
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("email3"), contactData.getEmail3());
     type(By.name("homepage"), contactData.getHomepage());
@@ -145,7 +146,7 @@ public class ContactHelper extends HelperBase {
       manager.goTo().homePage();
       create(new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
               .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHomePhone("123456789")
-              .setAllEmail("asdf@mail.ru").setNotes( "bla bla").setGroup(groupId));
+              .setAllEmail("asdf@mail.ru").setEmail("qwerty@mail").setNotes( "bla bla").setGroup(groupId));
       manager.goTo().homePage();
     }
   }
@@ -154,10 +155,13 @@ public class ContactHelper extends HelperBase {
     initContactModifyByID(contact.getId());
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String nickname = wd.findElement(By.name("nickname")).getAttribute("value");
     String adress = wd.findElement(By.name("address")).getText();
+    String company = wd.findElement(By.name("company")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+
     String email = wd.findElement(By.name("email")).getAttribute("value");
     String email2 = wd.findElement(By.name("email2")).getAttribute("value");
     String email3 = wd.findElement(By.name("email3")).getAttribute("value");
@@ -165,6 +169,7 @@ public class ContactHelper extends HelperBase {
 
     wd.navigate().back();
     return new ContactData().setId(contact.getId()).setFirstname(firstname).setLastname(lastname)
+            .setNickname(nickname).setCompany(company)
             .setAddress(adress).setHomePhone(home).setMobilePhone(mobile).setWorkPhone(work)
             .setEmail(email).setEmail2(email2).setEmail3(email3);
   }

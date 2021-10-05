@@ -102,12 +102,12 @@ public class ContactData {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email) && Objects.equals(photoPath, that.photoPath);
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email, photoPath);
+    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email);
   }
 
   public File getPhotoPath() {
@@ -116,7 +116,6 @@ public class ContactData {
     } else {
       return null;
     }
-    //return new File(photoPath);
   }
 
   public ContactData setPhotoPath(File photoPath) {
