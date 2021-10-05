@@ -5,7 +5,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook") //привязка к базе
@@ -73,8 +75,7 @@ public class ContactData {
   private String email3;
   @Transient
   private String notes;
-  @Transient
-  private int group;
+
   /*@Expose
   public File photo;
 
@@ -97,6 +98,19 @@ public class ContactData {
   }
 
   public File getPhotoPath() { return new File(photoPath); }*/
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"),
+          inverseJoinColumns = @JoinColumn(name = "group_id")) //7.6.
+  private Set<GroupData> groups = new HashSet<GroupData>();
+
+  public Groups getGroups() {
+    return new Groups(groups);
+  }
+  public void setGroups(Set<GroupData> groups) {
+    this.groups = groups;
+  }
+
 
   public File getPhotoPath() {
     if (photoPath != null) {
@@ -201,11 +215,6 @@ public class ContactData {
     return this;
   }
 
-  public ContactData setGroup(int group) {
-    this.group = group;
-    return this;
-  }
-
   public int getId() { return id; }
 
   public String getFirstname() {
@@ -258,7 +267,6 @@ public class ContactData {
     return notes;
   }
 
-  public int getGroup() { return group; }
 
   @Override
   public boolean equals(Object o) {

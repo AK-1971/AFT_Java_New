@@ -14,10 +14,7 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ContactCreationTest extends TestBase {
@@ -43,7 +40,7 @@ public class ContactCreationTest extends TestBase {
               .setAddress(split[3]).setAllEmail(split[4])
               //.setPhotoPath(photo.getPath())
               .setPhotoPath(photo)//если вариант (!?!) то тогда в аргументы передаем только фото:.setPhotoPath(photo)
-              .setGroup(group.getId())});//.setPhoto(new File(split[5]))});
+              .setGroups(groupDataSet))});//.setPhoto(new File(split[5]))});
       line = reader.readLine();
     }
     return list.iterator();
@@ -83,7 +80,7 @@ public class ContactCreationTest extends TestBase {
     app.goTo().groupPage(); //
     List<GroupData> groups = app.group().list();
     GroupData group = groups.get(0);
-    return contacts.stream().map((c) -> new Object[]{c.setGroup(group.getId())})
+    return contacts.stream().map((c) -> new Object[]{c.setGroups(groupDataSet)})
             .collect(Collectors.toList()).iterator();
   }
 
@@ -95,7 +92,7 @@ public class ContactCreationTest extends TestBase {
     GroupData group = groups.get(0);
 
     app.goTo().homePage();
-    ContactData contact = contactFromProvaider.setGroup(group.getId());
+    ContactData contact = contactFromProvaider.setGroups(groupDataSet));
     Contacts before = app.db().contacts();
     app.contact().create(contact);
     app.goTo().homePage();
@@ -127,6 +124,12 @@ public class ContactCreationTest extends TestBase {
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
   }
 
+  Set<GroupData> groupDataSet = new HashSet<>();
+    groupDataSet.add(groups.get(0));
+
+    return contacts.stream().map((c) -> new Object[]{c.setGroups(groupDataSet)})
+          .collect(Collectors.toList()).iterator();
+
 
   @Test(enabled = false)
   public void currentDirDefinition(){
@@ -136,5 +139,6 @@ public class ContactCreationTest extends TestBase {
     System.out.println(photo.getAbsolutePath());
     System.out.println(photo.exists());
   }
+
 
 }

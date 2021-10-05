@@ -3,11 +3,10 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity //эта аннотация объявляет класс привязанным к базе
 @Table(name="group_list")
@@ -56,6 +55,18 @@ public class GroupData {
     this.footer = footer;
     return this;
   }
+
+    public Contacts getContacts() {
+    return new Contacts(contacts);
+  }
+
+  public void setContacts(Set<ContactData> contacts) {
+    this.contacts = contacts;
+  }
+
+  @ManyToMany(mappedBy = "groups")
+  private Set<ContactData> contacts = new HashSet<ContactData>(); //см. 7.6.
+
 
   @Override
   public String toString() {
