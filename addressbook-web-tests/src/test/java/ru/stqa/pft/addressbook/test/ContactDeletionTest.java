@@ -32,6 +32,7 @@ public class ContactDeletionTest extends TestBase {
     }*/
     //Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(deletedContact)));
+    verifyContactListInUI();// для запуска метода в Edit Configuration в поле VM должно быть -ea -DverifyUI=true
   }
 
 

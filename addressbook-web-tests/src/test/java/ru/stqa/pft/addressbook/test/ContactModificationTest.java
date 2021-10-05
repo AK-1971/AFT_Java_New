@@ -27,6 +27,7 @@ public class ContactModificationTest extends TestBase {
     Assert.assertEquals(app.contact().getCount(), before.size());
     Contacts after = app.db().contacts();
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(oldContact).withAdded(newContact)));
+    verifyContactListInUI();// для запуска метода в Edit Configuration в поле VM должно быть -ea -DverifyUI=true
   }
 
   @Test(enabled = false)

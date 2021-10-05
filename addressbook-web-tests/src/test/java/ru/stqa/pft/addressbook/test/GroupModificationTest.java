@@ -48,6 +48,7 @@ public class GroupModificationTest extends TestBase {
     before.add(newGroup);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));*/
     assertThat(after, equalTo(before.withOut(oldGroup).withAdded(newGroup)));
+    verifyGrouListInUI(); // для запуска метода в Edit Configuration в поле VM должно быть -ea -DverifyUI=true
   }
 
 }

@@ -104,6 +104,7 @@ public class ContactCreationTest extends TestBase {
     Contacts after = app.db().contacts();
     contact.setId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt());
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withAdded(contact)));
+    verifyContactListInUI();// для запуска метода в Edit Configuration в поле VM должно быть -ea -DverifyUI=true
   }
 
   // тест упадет, потому что сгенерированы поля которых нет на веб странице чтобы заработал надо перегенерировать
