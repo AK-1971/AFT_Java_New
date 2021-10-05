@@ -2,8 +2,11 @@
   {
     "firstname": "FilesName_0",
     "lastname": "LastName_0",
+    "nickname": "NickName_0",
+    "company": "Company_0",
     "address": "adress_0",
-    "allPhones": "Phone_0",
-    "allEmail": "email_0"
+    "mobilePhone": "Phone_0",
+    "email": "email_0",
+    "photoPath": "src\\test\\resources\\nafan.jpg"
   }
 ]

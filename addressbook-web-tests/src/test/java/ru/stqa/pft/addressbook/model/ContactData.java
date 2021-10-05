@@ -26,9 +26,10 @@ public class ContactData {
   @Column(name = "lastName")
   private String lastname;
 
+  @Expose
   @Column(name = "nickname")
   private String nickname;
-
+  @Expose
   @Column(name = "company")
   private String company;
 
@@ -47,9 +48,11 @@ public class ContactData {
   @Column(name = "home")
   @Type(type = "text")
   private String homePhone;
+  @Expose
   @Column(name = "mobile")
   @Type(type = "text")
   private String mobilePhone;
+  @Expose
   @Column(name = "work")
   @Type(type = "text")
   private String workPhone;
@@ -82,25 +85,26 @@ public class ContactData {
     this.photo = photo;
     return this;
   }*/
+  @Expose
   @Column(name = "photo")
   @Type(type = "text")
   private String photoPath;
 
-  public ContactData setPhotoPath(String photoPath) {
+ /* public ContactData setPhotoPath(String photoPath) {
     this.photoPath = photoPath;
     return this;
   }
 
-  public File getPhotoPath() { return new File(photoPath); }
+  public File getPhotoPath() { return new File(photoPath); }*/
 
-  /*public File getPhoto() {
+  public File getPhotoPath() {
     return new File(photoPath);
-  }*/
+  }
 
- /* public ContactData setPhotoPath(File photoPath) {
+  public ContactData setPhotoPath(File photoPath) {
     this.photoPath = photoPath.getPath();
     return this;
-  }*/ //вариант (!?!) когда передаем аргументом файл
+  } //вариант (!?!) когда передаем аргументом файл
 
   public  ContactData setId(int id){
     this.id = id;
@@ -166,6 +170,19 @@ public class ContactData {
   public ContactData setFaxNumber(String faxNumber) {
     this.faxNumber = faxNumber;
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(email, that.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname, nickname, company, address, mobilePhone, email);
   }
 
   public ContactData setAllEmail(String email) {
@@ -250,19 +267,6 @@ public class ContactData {
   }
 
   public int getGroup() { return group; }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(address, that.address);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, address);
-  }
 
   @Override
   public String toString() {

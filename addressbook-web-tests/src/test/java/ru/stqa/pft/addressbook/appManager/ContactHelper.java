@@ -22,6 +22,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void fillContact(ContactData contactData, boolean itsContactCreation) {
+
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
@@ -29,9 +30,14 @@ public class ContactHelper extends HelperBase {
     type(By.name("company"), contactData.getCompany());
     type(By.name("address"), contactData.getAddress());
     type(By.name("home"), contactData.getHomePhone());
+    type(By.name("mobile"), contactData.getMobilePhone());
+    type(By.name("work"), contactData.getWorkPhone());
+    type(By.name("fax"), contactData.getFaxNumber());
     type(By.name("email"), contactData.getAllEmail());
-    type(By.name("notes"), contactData.getNotes());
-    //attach(By.name("photo"), contactData.getPhoto());//объяснение почему создали метод attach в 6.1.
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
+    type(By.name("homepage"), contactData.getHomepage());
+    attach(By.name("photo"), contactData.getPhotoPath());//объяснение почему создали метод attach в 6.1.
 
     if (itsContactCreation) {//3.8. проверка есть ли в форме кнопка добавления в группу (в модификации контакта ее нет)
       //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
