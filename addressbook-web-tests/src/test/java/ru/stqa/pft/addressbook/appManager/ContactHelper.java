@@ -141,6 +141,17 @@ public class ContactHelper extends HelperBase {
     manager.goTo().homePage();
   }
 
+  public void deleteGroupFromContact(int contactID, int groupID) {
+    manager.goTo().homePage();
+    new Select(wd.findElement(By.name("group"))).selectByValue(""
+            + groupID);
+    wd.findElement(By.xpath("//input[@id ='" + contactID + "']")).click();
+
+    wd.findElement(By.name("remove")).click();
+    manager.goTo().homePage();
+  }
+
+
 
   public void createIfNotExists() {
     //Проверяем также наличие группы - создаем при отсутствии
@@ -280,6 +291,21 @@ public class ContactHelper extends HelperBase {
     return contactsCache;
   }
 
+  public void addContactToGroup(int contactID, int groupID) {
+    manager.goTo().homePage();
+    wd.findElement(By.xpath("//input[@id ='" + contactID + "']")).click();
+    new Select(wd.findElement(By.name("to_group"))).selectByValue("" + groupID);
+    //wd.findElement(By.xpath("//option[@value='" + groupID + "']")).click();
+    wd.findElement(By.name("add")).click();
+  }
+
+  public void addContactToAnyGroup(int contactID) {
+    manager.goTo().groupPage();
+    manager.goTo().homePage();
+    wd.findElement(By.xpath("//input[@id ='" + contactID + "']")).click();
+    wd.findElement(By.name("add")).click();
+  }
+
   /*public Set<ContactData> all() {
     Set<ContactData> contacts = new HashSet<ContactData>();
     List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
@@ -313,6 +339,5 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }*/
-
 
 }
