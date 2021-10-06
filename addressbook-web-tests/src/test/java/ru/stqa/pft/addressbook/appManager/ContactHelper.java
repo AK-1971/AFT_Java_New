@@ -1,9 +1,11 @@
 package ru.stqa.pft.addressbook.appManager;
 
+import jdk.nashorn.internal.ir.SetSplitState;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.collections.Sets;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -40,12 +42,22 @@ public class ContactHelper extends HelperBase {
     type(By.name("homepage"), contactData.getHomepage());
     attach(By.name("photo"), contactData.getPhotoPath());//объяснение почему создали метод attach в 6.1.
 
+    if (itsContactCreation) {
+      if ((contactData.getGroups().size() > 0)) {//3.8. проверка есть ли в форме кнопка добавления в группу (в модификации контакта ее нет)
+        // Assert.assertTrue(contactData.getGroups().size() == 1); //Эта проверка по 7.6. при ее наличии надо закоменьировать блок else
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups()
+                .iterator().next().getGroupName());
+      } else { //если ассерт в If раскоментить, надо закоментить этот блок //3.8.если кнопка добавления в группу на форме модификации появилась - это баг и ниже проводится проверка
+        Assert.assertFalse(isElementPresent(By.name("new_group"))); // сейчас раскоментил чтобы заработал метод app.contact().createIfNotExists(); в тестах
+      }
+    }
+    /*
     if (itsContactCreation) {//3.8. проверка есть ли в форме кнопка добавления в группу (в модификации контакта ее нет)
       //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
       new Select(wd.findElement(By.name("new_group"))).selectByValue("" + contactData.getGroup());
     } else { //3.8.если кнопка добавления в группу на форме модификации появилась - это баг и ниже проводится проверка
       Assert.assertFalse(isElementPresent(By.name("new_group")));
-    }
+    }*/
   }
 
   public void initNewContact() {
@@ -139,14 +151,19 @@ public class ContactHelper extends HelperBase {
     manager.goTo().homePage();
     if (!isContactPresent()) {
       manager.goTo().groupPage();
-      //List<GroupData> group = manager.group().list();//выясняем имя группы в списке (берем первую)
+      List<GroupData> groups = manager.group().list();//выясняем имя группы в списке (берем первую)
       Set<GroupData> group = manager.group().all();
       //String groupName = group.iterator().next().getGroupName(); //и передаем его в данные контакта
-      int groupId = group.iterator().next().getId();
+      //int groupId = group.iterator().next().getId();
+      Set<GroupData> groupDataSet = Sets.newHashSet(groups);// !!!
+
       manager.goTo().homePage();
       create(new ContactData().setFirstname("Ivan").setMiddlename("Ivanovich").setLastname("Ivanov")
               .setNickname("Beetle").setCompany("NCC").setAddress("Moscow").setHomePhone("123456789")
-              .setAllEmail("asdf@mail.ru").setEmail("qwerty@mail").setNotes( "bla bla").setGroup(groupId));
+              .setAllEmail("asdf@mail.ru").setEmail("qwerty@mail").setNotes( "bla bla")
+              .setGroups(groupDataSet));
+              //.setGroups(groupDataSet)); !!! вместо предыдущей строки
+
       manager.goTo().homePage();
     }
   }

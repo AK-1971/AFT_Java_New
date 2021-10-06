@@ -107,8 +107,10 @@ public class ContactData {
   public Groups getGroups() {
     return new Groups(groups);
   }
-  public void setGroups(Set<GroupData> groups) {
+
+  public ContactData setGroups(Set<GroupData> groups) {
     this.groups = groups;
+    return this;
   }
 
 
