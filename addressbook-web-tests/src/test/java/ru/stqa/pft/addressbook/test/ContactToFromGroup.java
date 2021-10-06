@@ -24,9 +24,10 @@ public class ContactToFromGroup extends TestBase{
       List<GroupData> groups = app.group().list();
       Set<GroupData> groupDataSet = Sets.newHashSet(groups);
 
-      ContactData contact = new ContactData().setLastname("Skywalker").setMiddlename("Veiderovich")
-              .setFirstname("Luc").setNickname("Freak").setAddress("Galaxy").setHomePhone("123456789")
-              .setAllEmail("asdf@mail.ru").setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
+      ContactData contact = new ContactData().setLastname("Created").setMiddlename("From")
+              .setFirstname("Precondition").setNickname("ContactToFromGroup").setAddress("Galaxy")
+              .setHomePhone("123456789").setAllEmail("asdf@mail.ru")
+              .setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
       app.contact().create(contact);
       //app.goTo().homePage();
     }
@@ -38,7 +39,7 @@ public class ContactToFromGroup extends TestBase{
     app.group().all();
     app.goTo().homePage();
 
-    GroupData groupThis = app.db().groups().iterator().next();
+    //GroupData groupThis = app.db().groups().iterator().next();
     /*Set<GroupData> groupSet = new HashSet<>();
     groupSet.add(groupThis);*/
 

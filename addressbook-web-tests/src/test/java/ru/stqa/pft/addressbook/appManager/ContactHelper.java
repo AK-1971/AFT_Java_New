@@ -260,6 +260,32 @@ public class ContactHelper extends HelperBase {
     return contacts;
   }
 
+  public Contacts all_Lesson5_10() {
+    if (contactsCache != null){ //5.7. если кеш не пустой, значит список уже прочитан, находится в кеше, дальнейшее действие метод all(0 прекращается
+      return new Contacts(contactsCache); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
+    }
+    //Contacts contacts = new Contacts();
+    contactsCache = new Contacts(); //создаем список контактов на странице - считываем в кеш
+    List<WebElement> elenents = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
+    for (WebElement element : elenents) {
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      String lastname = cells.get(1).getText();
+      String firstname = cells.get(2).getText();
+      String adress = cells.get(3).getText();
+      String allEmails = cells.get(4).getText();
+      String allPhones = cells.get(5).getText();
+      String[] emails = cells.get(4).getText().split("\n"); //5.10
+      String[] phones = cells.get(5).getText().split("\n"); //5.10
+      ContactData contact = new ContactData().setId(id).setFirstname(firstname).setLastname(lastname)
+              .setAddress(adress).setHomePhone(phones[0]).setMobilePhone(phones[1]).setWorkPhone(phones[2])
+              .setEmail(emails[0]).setEmail2(emails[1]).setEmail3(emails[2]);
+      contactsCache.add(contact);
+    }
+    return contactsCache;
+  }
+
+
   public Contacts allAK() { //так было у меня до 5.10
     if (contactsCache != null){ //5.7. если кеш не пустой, значит список уже прочитан, находится в кеше, дальнейшее действие метод all(0 прекращается
       return new Contacts(contactsCache); //возвращаем не сам кеш, а его копию - на всякий случай, чтобы сам кеш не был случайно испорчен
