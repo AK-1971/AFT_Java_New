@@ -24,15 +24,12 @@ public class ContactFeateresTest extends TestBase{
   @Test(enabled = true)
   public void testContactPhones() { //5.10 - 5.11
     app.goTo().homePage();
-    ContactData contact = app.contact().all().iterator().next();
+    ContactData contact = app.contact().all_5_11().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-    assertThat(contact, equalTo(contactInfoFromEditForm));
     assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
-
-    /*assertThat(contact.getEmail(), equalTo(cleanEmail(contactInfoFromEditForm.getEmail()))); так сравнение было в 5.10
-    assertThat(contact.getEmail2(), equalTo(cleanEmail(contactInfoFromEditForm.getEmail2())));*/
     assertThat(contact.getAllEmail(), equalTo(mergeEmailes(contactInfoFromEditForm)));
+    assertThat(contact, equalTo(contactInfoFromEditForm));
   }
 
   private String mergeEmailes(ContactData contact) {
