@@ -27,6 +27,7 @@ public class AppsManager {
 
   public void init() throws IOException {
     String target = System.getProperty("target", "local"); //6.10 использование данных из файла конфигурации
+
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));// 6.10. local
 
     /*if (browser.equals(BrowserType.FIREFOX)) {wd = new FirefoxDriver();
@@ -56,4 +57,11 @@ public class AppsManager {
     wd.quit();
   }
 
+  public HttpSession newSession() {
+    return new HttpSession(this);
+  }
+
+  public String getProperty(String key) {
+    return properties.getProperty(key);
+  }
 }
