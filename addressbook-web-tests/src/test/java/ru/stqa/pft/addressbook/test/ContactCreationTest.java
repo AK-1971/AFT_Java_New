@@ -95,8 +95,8 @@ public class ContactCreationTest extends TestBase {
     app.goTo().groupPage(); //создаем список из которого берем группу в которую
     // с помощью setGroup(group.getId() добавим контакт
     List<GroupData> groups = app.group().list();
-    Set<GroupData> groupDataSet = new HashSet<>();
-    groupDataSet.add(groups.get(0));
+    Set<GroupData> groupDataSet = new HashSet<>();//создаем пустой список групп
+    groupDataSet.add(groups.get(0));//добавляем в него первую группу
 
     app.goTo().homePage();
     ContactData contact = contactFromProvaider.setGroups(groupDataSet);
@@ -118,7 +118,7 @@ public class ContactCreationTest extends TestBase {
     // с помощью setGroup(group.getId() добавим контакт
     List<GroupData> groups = app.group().list();
     //GroupData group = groups.get(0);
-    Set<GroupData> groupDataSet = new HashSet<>();//???
+    Set<GroupData> groupDataSet = new HashSet<>();//
     groupDataSet.add(groups.get(0));
 
     app.goTo().homePage();

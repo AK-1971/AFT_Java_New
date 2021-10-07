@@ -21,7 +21,7 @@ public class ContactFeateresTest extends TestBase{
     app.contact().createIfNotExists();
   }
 
-  @Test
+  @Test(enabled = false)
   public void testContactPhones() { //5.10 - 5.11
     app.goTo().homePage();
     ContactData contact = app.contact().all().iterator().next();
@@ -36,7 +36,7 @@ public class ContactFeateresTest extends TestBase{
   }
 
   private String mergeEmailes(ContactData contact) {
-    return Arrays.asList(contact.getEmail(), contact.getEmail2())
+    return Arrays.asList(contact.getEmail(), contact.getEmail2(), contact.getEmail3())
             .stream().filter((s) -> ! s.equals(""))
             .map(ContactFeateresTest::cleanEmail).collect(Collectors.joining("\n"));
   }
