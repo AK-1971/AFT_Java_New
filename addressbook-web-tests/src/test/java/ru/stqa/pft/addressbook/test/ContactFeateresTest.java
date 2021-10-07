@@ -21,7 +21,7 @@ public class ContactFeateresTest extends TestBase{
     app.contact().createIfNotExists();
   }
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testContactPhones() { //5.10 - 5.11
     app.goTo().homePage();
     ContactData contact = app.contact().all().iterator().next();

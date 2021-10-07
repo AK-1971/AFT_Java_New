@@ -69,9 +69,13 @@ public class ContactData {
   @Expose
   @Transient
   private String email;
-  @Transient
+
+  @Column(name = "email2")
+  @Type(type = "text")
   private String email2;
-  @Transient
+
+  @Column(name = "email3")
+  @Type(type = "text")
   private String email3;
   @Transient
   private String notes;
@@ -106,6 +110,19 @@ public class ContactData {
 
   public Groups getGroups() {
     return new Groups(groups);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstname, lastname, nickname, company, address);
   }
 
   public ContactData setGroups(Set<GroupData> groups) {
@@ -269,19 +286,6 @@ public class ContactData {
     return notes;
   }
 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(allEmail, that.allEmail);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstname, lastname, nickname, company, address, allEmail);
-  }
 
   @Override
   public String toString() {
