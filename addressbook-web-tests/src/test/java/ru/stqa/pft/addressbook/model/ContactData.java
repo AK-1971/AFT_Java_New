@@ -209,7 +209,7 @@ public class ContactData {
   }
 
   public ContactData setEmail3(String email3) {
-    this.email2 = email3;
+    this.email3 = email3;
     return this;
   }
   public ContactData setNotes(String notes) {
