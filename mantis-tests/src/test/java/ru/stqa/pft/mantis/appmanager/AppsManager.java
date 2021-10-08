@@ -6,6 +6,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.junit.JUnit4TestRunner;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,7 +18,8 @@ public class AppsManager {
 
   private final Properties properties;
   private String browser;
-  public WebDriver wd;
+  private WebDriver wd;
+  private RegistrationHelper registrationHelper;
 
   public AppsManager(String browser) {
     this.browser = browser;
@@ -27,34 +29,13 @@ public class AppsManager {
 
   public void init() throws IOException {
     String target = System.getProperty("target", "local"); //6.10 использование данных из файла конфигурации
-
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));// 6.10. local
-
-    /*if (browser.equals(BrowserType.FIREFOX)) {wd = new FirefoxDriver();
-    } else if (browser.equals(BrowserType.CHROME)) {wd = new ChromeDriver();
-    } else if (browser.equals(BrowserType.IE)) {wd = new InternetExplorerDriver();
-    } else wd = new OperaDriver();*/
-
-    switch (browser) {
-      case BrowserType.FIREFOX:
-        wd = new FirefoxDriver();
-        break;
-      case BrowserType.CHROME:
-        wd = new ChromeDriver();
-        break;
-      case BrowserType.IE:
-        wd = new InternetExplorerDriver();
-        break;
-      default:
-        wd = new OperaDriver();
-    }
-    //ожидание появления поля если вдруг интернет медленный, объяснение в 3.8. на 11.30
-    wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);//это мешает при проверках когда элемент должен отсутствовать - тест будет зеленый, но время будет затрачено
-    wd.get(properties.getProperty("web.baseUrl")); //6.10
   }
 
   public void stop() {
-    wd.quit();
+    if (wd != null) {
+      wd.quit();
+    }
   }
 
   public HttpSession newSession() {
@@ -63,5 +44,27 @@ public class AppsManager {
 
   public String getProperty(String key) {
     return properties.getProperty(key);
+  }
+
+  public RegistrationHelper registration() {
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
+    }
+    return registrationHelper;
+  }
+
+  public WebDriver getDriver() { //8.4. Ленивая инициализация
+    if (wd == null) {
+      if (browser.equals(BrowserType.CHROME)) {
+        wd = new ChromeDriver();
+      } else if (browser.equals(BrowserType.FIREFOX)) {
+        wd = new FirefoxDriver();
+      } else if (browser.equals(BrowserType.IE)) {
+        wd = new InternetExplorerDriver();
+      }
+      wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+      wd.get(properties.getProperty("web.baseUrl"));
+    }
+    return wd;
   }
 }
