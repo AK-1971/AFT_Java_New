@@ -20,6 +20,7 @@ public class AppsManager {
   private String browser;
   private WebDriver wd;
   private RegistrationHelper registrationHelper;
+  private FtpHelper ftp;
 
   public AppsManager(String browser) {
     this.browser = browser;
@@ -52,6 +53,15 @@ public class AppsManager {
     }
     return registrationHelper;
   }
+
+  public FtpHelper ftp() {
+    if (ftp == null) {
+      ftp = new FtpHelper(this);
+    }
+    return ftp;
+  }
+
+
 
   public WebDriver getDriver() { //8.4. Ленивая инициализация
     if (wd == null) {
