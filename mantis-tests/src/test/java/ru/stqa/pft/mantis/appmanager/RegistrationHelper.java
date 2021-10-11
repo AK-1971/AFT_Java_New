@@ -2,6 +2,10 @@ package ru.stqa.pft.mantis.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ru.lanwen.verbalregex.VerbalExpression;
+import ru.stqa.pft.mantis.model.MailMessage;
+
+import java.util.List;
 
 public class RegistrationHelper extends HelperBase{
 
