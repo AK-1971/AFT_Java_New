@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.appManager;
 
-import jdk.nashorn.internal.ir.SetSplitState;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -360,6 +359,9 @@ public class ContactHelper extends HelperBase {
     wd.findElement(By.xpath("//input[@id ='" + contactID + "']")).click();
     wd.findElement(By.name("add")).click();
   }
+
+
+
 
   /*public Set<ContactData> all() {
     Set<ContactData> contacts = new HashSet<ContactData>();
