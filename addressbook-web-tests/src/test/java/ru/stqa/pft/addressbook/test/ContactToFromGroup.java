@@ -101,50 +101,103 @@ public class ContactToFromGroup extends TestBase {
     Groups afterInContact = contactWithNewGroups.getGroups();
 
     MatcherAssert.assertThat(afterInContact, CoreMatchers.equalTo(beforeInContact.withAdded(groupToAdd)));
+  }
 
+  @Test(enabled = true)
+  public void contactFromGroup() {
+    app.goTo().groupPage();
+    Groups groups = app.group().all();
+    app.goTo().homePage();
 
+    GroupData groupThis = app.db().groups().iterator().next();
+    Set<GroupData> groupSet = new HashSet<>();
+    groupSet.add(groupThis);
 
-   /* Set<GroupData> anyContactGroupSet = new HashSet<>();
-    for (GroupData groupAll : allGroupSet) {
-      for (GroupData groupFromContact )
-    }
+    ContactData randomContact;
+    ContactData contactInGroup;
+    //ContactData contactFromGroup = null;
+    int c = 0;
     do {
-      GroupData group = app.db().groups().iterator().next();
-      anyContactGroupSet.add(group);
-    } while (anyContact.getGroups().iterator().hasNext());
+      randomContact = app.db().contacts().iterator().next();
+      if (randomContact.getGroups().size() != 0) {
+        c++;
+        //contactFromGroup = randomContact;
+      }
 
-    app.contact().deleteGroupFromContact(anyContact.getId(),
-            anyContact.getGroups().iterator().next().getId());
+    } while (randomContact.getGroups().size() == 0);
 
-    /*
+
+    if (c == 0) {
+      app.contact().addContactToAnyGroup(randomContact.getId());
+    }
+    app.goTo().groupPage();
+    app.goTo().homePage();
+
+    do {
+      contactInGroup = app.db().contacts().iterator().next();
+    }
+    while (contactInGroup.getId() != randomContact.getId());
+
+    System.out.println(contactInGroup.getGroups().size());
+    Groups beforeGroupsList = contactInGroup.getGroups();
+
+    GroupData deletedGroup = contactInGroup.getGroups().iterator().next();
+    int deletedGroupId = deletedGroup.getId();
+    app.contact().deleteGroupFromContact(contactInGroup.getId(), deletedGroupId);
+
+    //Обновляю контакт (чтобы не подхватился кешированный
+    ContactData contactOutOfGroups;
+    do {
+      contactOutOfGroups = app.db().contacts().iterator().next();
+    }
+    while (contactOutOfGroups.getId() != contactInGroup.getId());
+
+    System.out.println(contactOutOfGroups.getGroups().size());
+
+    Groups afterGroupsList = contactOutOfGroups.getGroups();
+
+    MatcherAssert.assertThat(afterGroupsList, CoreMatchers.equalTo(beforeGroupsList.withOut(deletedGroup)));
+  }
+
+  @Test(enabled = true)
+  public void contactToGroupOld() {//В этом тесте берется произвольный контакт, если он уже в группе, то удаляется
+    app.goTo().groupPage(); // из группы, а потом добавлеяем - так делал раньше
+    app.group().all();
+    app.goTo().homePage();
+
+    ContactData randomContact = app.db().contacts().iterator().next();
+
+    if (randomContact.getGroups().size() != 0) {
+      app.contact().deleteGroupFromContact(randomContact.getId(),
+              randomContact.getGroups().iterator().next().getId());
+    }
     //Костыль чтобы обновить контакт - т.к. иначе будет получен из кеша и assert не увидит, что контакт не в группе
     app.goTo().homePage();
     ContactData contactOutOfGroups;
     do {
       contactOutOfGroups = app.db().contacts().iterator().next(); }
-    while (contactOutOfGroups.getId() != anyContact.getId());
+    while (contactOutOfGroups.getId() != randomContact.getId());
 
     System.out.println(contactOutOfGroups.getGroups().size());
 
     MatcherAssert.assertThat(contactOutOfGroups.getGroups().size(),
             CoreMatchers.equalTo(0));
 
-    app.contact().addContactToGroup(contactOutOfGroups.getId(), groupInContact.getId());
+    app.contact().addContactToAnyGroup(contactOutOfGroups.getId());
 
     ContactData contactAddTofGroup;
     do {
-      contactAddTofGroup = app.db().contacts().iterator().next();
-    }
+      contactAddTofGroup = app.db().contacts().iterator().next(); }
     while (contactAddTofGroup.getId() != contactOutOfGroups.getId());
 
     MatcherAssert.assertThat(contactAddTofGroup.getGroups().size(),
-            CoreMatchers.equalTo(1));*/
+            CoreMatchers.equalTo(1));
 
   }
 
-  @Test(enabled = false)
-  public void contactFromGroup() {
-    app.goTo().groupPage();
+  @Test(enabled = true)
+  public void contactFromGroupOld() { //произвольный контакт, если не имеет группы, то сначала добавляем,
+    app.goTo().groupPage();           //потом удаляем - так было сделано в 1й попытке
     Groups groups = app.group().all();
     app.goTo().homePage();
 
@@ -162,8 +215,7 @@ public class ContactToFromGroup extends TestBase {
 
     ContactData contactInGroup;
     do {
-      contactInGroup = app.db().contacts().iterator().next();
-    }
+      contactInGroup = app.db().contacts().iterator().next(); }
     while (contactInGroup.getId() != randomContact.getId());
 
     System.out.println(contactInGroup.getGroups().size());
@@ -177,14 +229,12 @@ public class ContactToFromGroup extends TestBase {
     //Обновляю контакт (чтобы не подхватился кешированный
     ContactData contactOutOfGroups;
     do {
-      contactOutOfGroups = app.db().contacts().iterator().next();
-    }
+      contactOutOfGroups = app.db().contacts().iterator().next(); }
     while (contactOutOfGroups.getId() != contactInGroup.getId());
 
     System.out.println(contactOutOfGroups.getGroups().size());
 
     MatcherAssert.assertThat(contactOutOfGroups.getGroups().size(),
             CoreMatchers.equalTo(0));
-
   }
 }
