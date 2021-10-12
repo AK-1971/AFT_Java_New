@@ -1,5 +1,6 @@
 package ru.stqa.pft.mantis.appmanager;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -35,6 +36,14 @@ public class AppsManager {
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));// 6.10. local
   }
 
+  public void keepPause() {
+    wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+  }
+
+  public void doLogout() {
+    wd.findElement(By.linkText("Logout")).click();
+  }
+
   public void stop() {
     if (wd != null) {
       wd.quit();
@@ -62,7 +71,6 @@ public class AppsManager {
     }
     return ftp;
   }
-
 
 
   public WebDriver getDriver() { //8.4. Ленивая инициализация

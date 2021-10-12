@@ -22,7 +22,6 @@ public class JamesHelper {
   private String mailserver;
 
   public JamesHelper(AppsManager app) {
-
     this.app = app;
     telnet = new TelnetClient();
     mailSession = Session.getDefaultInstance(System.getProperties());
@@ -71,12 +70,12 @@ public class JamesHelper {
     write(login);
     readUntil("Password:");
     write(password);
-    /*
+
     //Second login attempt, must be successfull - Alexei's notice
     readUntil("Login id:");
     write(login);
     readUntil("Password:");
-    write(password);*/
+    write(password);
 
     //Read welcome message - Alexei's notice
     readUntil("Welcome " + login + ". HELP for a list of commands");

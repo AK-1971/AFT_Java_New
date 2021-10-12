@@ -16,6 +16,11 @@ public class RegistrationTestsJames {
   //перед запуском теста необходимо запустить почтовый сервер James в ком. строке  в директории C:\Tools\james-2.3.1\bin
   // следующие 3 команды 1) set JAVA_HOME=C:\Program Files\Zulu\zulu-8  2) set PATH=%JAVA_HOME%\bin;%PATH%  3) run.bat
 
+  //@BeforeMethod
+  public void startMailServer() {
+    app.mail().start();
+  }
+
   @Test
   public void testRegistration() throws MessagingException, IOException {
     long now = System.currentTimeMillis();
@@ -39,5 +44,9 @@ public class RegistrationTestsJames {
     return regex.getText(mailMessage.text);
   }
 
+  //@AfterMethod(alwaysRun = true) //используем только со встроенным сервером
+  public void stopMailServer() {
+    app.mail().stop();
+  }
 
 }
