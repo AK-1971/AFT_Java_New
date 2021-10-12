@@ -11,7 +11,7 @@ import java.util.List;
 
 import static ru.stqa.pft.mantis.tests.TestBase.app;
 
-public class RegistrationTestsJames {
+public class RegistrationTestsJames extends TestBase {
 
   //перед запуском теста необходимо запустить почтовый сервер James в ком. строке  в директории C:\Tools\james-2.3.1\bin
   // следующие 3 команды 1) set JAVA_HOME=C:\Program Files\Zulu\zulu-8  2) set PATH=%JAVA_HOME%\bin;%PATH%  3) run.bat
