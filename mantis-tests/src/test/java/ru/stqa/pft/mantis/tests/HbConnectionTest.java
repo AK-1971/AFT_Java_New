@@ -11,7 +11,7 @@ import ru.stqa.pft.mantis.model.UserData;
 
 import java.util.List;
 
-public class HbConnectionTest {
+public class HbConnectionTest { //согл. 7.2. привязка базы Мантис
 
   private SessionFactory sessionFactory;
 

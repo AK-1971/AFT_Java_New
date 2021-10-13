@@ -24,6 +24,7 @@ public class AppsManager {
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
+  private DbHelper dbHelper;
 
   public AppsManager(String browser) {
     this.browser = browser;
@@ -34,6 +35,12 @@ public class AppsManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local"); //6.10 использование данных из файла конфигурации
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));// 6.10. local
+
+    dbHelper = new DbHelper();
+  }
+
+  public DbHelper db() {
+    return dbHelper;
   }
 
   public void keepPause() {

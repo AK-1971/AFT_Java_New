@@ -6,6 +6,7 @@ import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RegistrationHelper extends HelperBase{
 
@@ -25,5 +26,23 @@ public class RegistrationHelper extends HelperBase{
     type(By.name("password"), password);
     type(By.name("password_confirm"), password);
     click(By.cssSelector("input[value='Update User']"));
+  }
+
+  public void loginAdmin(String username, String password) {
+    wd.get(app.getProperty("web.baseUrl") + "/login_page.php");
+    type(By.name("username"), username);
+    type(By.name("password"), password);
+    click(By.cssSelector("input[value='Login']"));
+  }
+
+  public void resetUserPassword(int id) {
+    //click(By.xpath("/html/body/div[2]/p/span[1]")); //manage users
+    wd.manage().timeouts().implicitlyWait(201, TimeUnit.SECONDS);
+    click(By.cssSelector(String.format("a[href='manage_user_edit_page.php?user_id=%s']", id)));
+    click(By.cssSelector("input[value='Reset Password']"));
+  }
+
+  public void finishResetPassword(String confirmationLink, String password) {
+    wd.get(confirmationLink);
   }
 }

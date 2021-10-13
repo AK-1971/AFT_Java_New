@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Groups extends ForwardingSet<GroupData> { //5.6.
+public class Groups extends ForwardingSet<GroupData> { //5.6. с 04.10
 
   private Set<GroupData> delegate; //создаем объект которому будут делегированы стандартные методы GroupData + наши новые
 
