@@ -37,12 +37,20 @@ public class RegistrationHelper extends HelperBase{
 
   public void resetUserPassword(int id) {
     //click(By.xpath("/html/body/div[2]/p/span[1]")); //manage users
-    wd.manage().timeouts().implicitlyWait(201, TimeUnit.SECONDS);
+    //wd.manage().timeouts().implicitlyWait(201, TimeUnit.SECONDS);
+    click(By.xpath("/html/body/table[2]/tbody/tr/td[1]/a[7]")); // Manage
+    click(By.xpath("/html/body/div[2]/p/span[1]/a	")); //Manage users
     click(By.cssSelector(String.format("a[href='manage_user_edit_page.php?user_id=%s']", id)));
-    click(By.cssSelector("input[value='Reset Password']"));
+    //click(By.cssSelector("input[value='Reset Password']"));
+    click(By.xpath("/html/body/div[4]/form[1]"));
+
   }
 
   public void finishResetPassword(String confirmationLink, String password) {
     wd.get(confirmationLink);
+    type(By.name("password"),password);
+    type(By.name("password_confirm"),password);
+    //click(By.cssSelector("button[type='submit']"));
+    click(By.xpath("/html/body/div[2]/form/table/tbody/tr[10]/td[2]/input"));
   }
 }

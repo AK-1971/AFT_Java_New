@@ -109,9 +109,9 @@ public class ContactToFromGroup extends TestBase {
     Groups groups = app.group().all();
     app.goTo().homePage();
 
-    GroupData groupThis = app.db().groups().iterator().next();
+    /*GroupData groupThis = app.db().groups().iterator().next();
     Set<GroupData> groupSet = new HashSet<>();
-    groupSet.add(groupThis);
+    groupSet.add(groupThis);*/
 
     ContactData randomContact;
     ContactData contactInGroup;

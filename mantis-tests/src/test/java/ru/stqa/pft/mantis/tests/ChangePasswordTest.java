@@ -26,7 +26,7 @@ public class ChangePasswordTest extends TestBase {
     Users users = app.db().users();
     UserData[] usersArray = new UserData[users.size()];
     users.toArray(usersArray);
-    UserData userForEdit = usersArray[2];
+    UserData userForEdit = usersArray[1];
     //UserData userForEdit = users.iterator().next();
 
     int userId = userForEdit.getId();
