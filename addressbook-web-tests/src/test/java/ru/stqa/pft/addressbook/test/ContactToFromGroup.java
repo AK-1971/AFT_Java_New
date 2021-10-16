@@ -68,8 +68,9 @@ public class ContactToFromGroup extends TestBase {
       contact.setId(afterCreate.stream().mapToInt((c)-> c.getId()).max().getAsInt());*/
 
       int idCreatedContact = 0;
+      ContactData isContactJustCreated;
       while (app.db().contacts().iterator().hasNext()) { //поскольку только что созданный контакт имеет мах ID ищем в списке его
-        ContactData isContactJustCreated = app.db().contacts().iterator().next();
+        isContactJustCreated = app.db().contacts().iterator().next();
         if (idCreatedContact < isContactJustCreated.getId()) {
           contactAddToGroup = isContactJustCreated;
         }
@@ -79,12 +80,12 @@ public class ContactToFromGroup extends TestBase {
     }
 
 
-    while (app.db().groups().iterator().hasNext()) {
-      groupToAdd = app.db().groups().iterator().next();
+    while (app.db().groups().iterator().hasNext()) { //ищем ту группу в которую контакт не входит
+      groupToAdd = app.db().groups().iterator().next(); //в этом цикле берем поочередно группы из общего списка
       int g = 0;
-      while (contactAddToGroup.getGroups().iterator().hasNext()) {
-        groupInContact = contactAddToGroup.getGroups().iterator().next();
-        if (groupToAdd.getId() == groupInContact.getId())  g++;
+      while (contactAddToGroup.getGroups().iterator().hasNext()) { //в этом цикле сравниваем группу из общего списка
+        groupInContact = contactAddToGroup.getGroups().iterator().next();//с каждой группой в контакте - если этой
+        if (groupToAdd.getId() == groupInContact.getId())  g++;//группы нет - добавляем в нее контакт
       }
       if (g == 0) break;
     }
@@ -106,37 +107,37 @@ public class ContactToFromGroup extends TestBase {
   @Test(enabled = true)
   public void contactFromGroup() {
     app.goTo().groupPage();
-    Groups groups = app.group().all();
+    Groups groups = app.group().all();//считываю список групп
     app.goTo().homePage();
 
     /*GroupData groupThis = app.db().groups().iterator().next();
     Set<GroupData> groupSet = new HashSet<>();
     groupSet.add(groupThis);*/
 
-    ContactData randomContact;
+    //ContactData randomContact;
     ContactData contactInGroup;
     //ContactData contactFromGroup = null;
     int c = 0;
-    do {
-      randomContact = app.db().contacts().iterator().next();
-      if (randomContact.getGroups().size() != 0) {
+    do { //в цикле проверяем есть ли хоть один контакт включенный в группу
+      contactInGroup = app.db().contacts().iterator().next();
+      if (contactInGroup.getGroups().size() != 0) {
         c++;
         //contactFromGroup = randomContact;
       }
 
-    } while (randomContact.getGroups().size() == 0);
+    } while (contactInGroup.getGroups().size() == 0);
 
 
-    if (c == 0) {
-      app.contact().addContactToAnyGroup(randomContact.getId());
+    if (c == 0) { //если в предыдущем цикле не нашлось ни одного контакта с группой, добавляем
+      app.contact().addContactToAnyGroup(contactInGroup.getId());// рандомный контакт в рандомную группу
     }
-    app.goTo().groupPage();
-    app.goTo().homePage();
+   //app.goTo().groupPage(); !!!
+    //app.goTo().homePage(); !!!
 
-    do {
-      contactInGroup = app.db().contacts().iterator().next();
+   /* do { //в этом цикле выбираем контакт имеющий группу - randomContact - он либо имел группу - был найден
+      contactInGroup = app.db().contacts().iterator().next();//в предыдущем цикле, либо был добавлен в группу
     }
-    while (contactInGroup.getId() != randomContact.getId());
+    while (contactInGroup.getId() != randomContact.getId());*/
 
     System.out.println(contactInGroup.getGroups().size());
     Groups beforeGroupsList = contactInGroup.getGroups();
@@ -159,6 +160,8 @@ public class ContactToFromGroup extends TestBase {
     MatcherAssert.assertThat(afterGroupsList, CoreMatchers.equalTo(beforeGroupsList.withOut(deletedGroup)));
   }
 
+  //Ниже - старые тесты - в них я брал произвольный контакт и в тесте для удаления из группы проверял - если
+  //контакт на в группе - то сначала добавлял, затем удалял, при добавлении из группы - порядок обратный
   @Test(enabled = true)
   public void contactToGroupOld() {//В этом тесте берется произвольный контакт, если он уже в группе, то удаляется
     app.goTo().groupPage(); // из группы, а потом добавлеяем - так делал раньше
