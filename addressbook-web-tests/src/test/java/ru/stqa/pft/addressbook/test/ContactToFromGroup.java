@@ -63,10 +63,6 @@ public class ContactToFromGroup extends TestBase {
               .setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
       app.contact().create(contact);
 
-      /*app.goTo().homePage();
-      Contacts afterCreate = app.db().contacts();
-      contact.setId(afterCreate.stream().mapToInt((c)-> c.getId()).max().getAsInt());*/
-
       int idCreatedContact = 0;
       ContactData isContactJustCreated;
       while (app.db().contacts().iterator().hasNext()) { //поскольку только что созданный контакт имеет мах ID ищем в списке его
@@ -110,11 +106,6 @@ public class ContactToFromGroup extends TestBase {
     Groups groups = app.group().all();//считываю список групп
     app.goTo().homePage();
 
-    /*GroupData groupThis = app.db().groups().iterator().next();
-    Set<GroupData> groupSet = new HashSet<>();
-    groupSet.add(groupThis);*/
-
-    //ContactData randomContact;
     ContactData contactInGroup;
     //ContactData contactFromGroup = null;
     int c = 0;
