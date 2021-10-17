@@ -32,7 +32,6 @@ public class ContactToFromGroup extends TestBase {
               .setHomePhone("123456789").setAllEmail("asdf@mail.ru")
               .setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
       app.contact().create(contact);
-      //app.goTo().homePage();
     }
   }
 
@@ -48,13 +47,6 @@ public class ContactToFromGroup extends TestBase {
     ContactData contactAddToGroup = anyContact;
     GroupData groupInContact = null;
     GroupData groupToAdd = groupInContact;
-    /*Iterator<GroupData> groupsIterator = groups.iterator();
-    while (groupsIterator.hasNext()) {
-      nextGroup = groupsIterator.next();*/
-    /*Users users = app.db().users();
-    UserData[] usersArray = new UserData[users.size()];
-    users.toArray(usersArray);
-    //UserData userForEdit = usersArray[1];*/
 
     Groups groupsList = app.db().groups();
     GroupData[] groupsArray = new GroupData[groupsList.size()];
@@ -74,15 +66,6 @@ public class ContactToFromGroup extends TestBase {
       }
     }
 
-    /*Iterator<ContactData> contactIterator = app.db().contacts().iterator();
-    while (contactIterator.hasNext()) {
-      anyContact = contactIterator.next();
-      if (anyContact.getGroups().size() != allGroupCount) { //проверяем количество групп в контакте - если их меньше
-        i++;                                         //чем общее кол-во групп - значит этот контакт добавляем в группу
-        break;
-      }
-    }*/
-
     if (i == 0) {// если true - значит создаем новый контакт
       ContactData contact = new ContactData().setLastname("Created").setMiddlename("From")
               .setFirstname("Precondition").setNickname("ContactToFromGroup").setAddress("Galaxy")
@@ -90,21 +73,13 @@ public class ContactToFromGroup extends TestBase {
               .setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
       app.contact().create(contact);
       contactAddToGroup = contact;
-
-      /*int idCreatedContact = 0;
-      ContactData isContactJustCreated;
-      while (app.db().contacts().iterator().hasNext()) { //поскольку только что созданный контакт имеет мах ID ищем в списке его
-        isContactJustCreated = app.db().contacts().iterator().next();
-        if (idCreatedContact < isContactJustCreated.getId()) {
-          contactAddToGroup = isContactJustCreated;
-        }
-      }*/
     }
 
-    for (int k = 0; k < groupsList.size(); k++) {
+    //поиск группы в общем списке в которую найденный контакт не входит
+    for (int k = 0; k < groupsList.size(); k++) {//сравниваем группу из общего списка с группой из списка групп контакта
       int g = 0;
 
-      Iterator<GroupData> groupsIterator = contactAddToGroup.getGroups().iterator();
+      Iterator<GroupData> groupsIterator = contactAddToGroup.getGroups().iterator();//создаем список групп контакта
       while (groupsIterator.hasNext()) {
         if (groupsIterator.next().getId() == groupsArray[k].getId()) {
           g++;//контакт уже состоит в этой группе; проверяем следующую группу контакта
@@ -132,33 +107,35 @@ public class ContactToFromGroup extends TestBase {
 
   @Test(enabled = true)
   public void contactFromGroup() {
-    app.goTo().groupPage();
-    Groups groups = app.group().all();//считываю список групп
+    //app.goTo().groupPage();
+    //Groups groups = app.group().all();//считываю список групп
     app.goTo().homePage();
 
-    ContactData contactInGroup;
-    //ContactData contactFromGroup = null;
-    int c = 0;
-    do { //в цикле проверяем есть ли хоть один контакт включенный в группу
-      contactInGroup = app.db().contacts().iterator().next();
-      if (contactInGroup.getGroups().size() != 0) {
-        c++;
-        //contactFromGroup = randomContact;
+    Groups groupsList = app.db().groups();
+    GroupData[] groupsArray = new GroupData[groupsList.size()];
+    groupsList.toArray(groupsArray);
+
+    Contacts contactsList = app.db().contacts();
+    ContactData[] contactsArray = new ContactData[contactsList.size()];
+    contactsList.toArray(contactsArray);
+
+    //ContactData contactInGroup;
+    ContactData contactInGroup = null;
+
+    int i = 0; //счетчик для определения есть ли контакты которые могут быть добавлены в группу
+
+    for(int c = 0; c < contactsList.size(); c++) { //в цикле проверяем состоит ли контакт в группе
+      if (contactsArray[c].getGroups().size() != 0) { //если состоит используем его
+        i++;
+        contactInGroup = contactsArray[c];
+        break;
       }
-
-    } while (contactInGroup.getGroups().size() == 0);
-
-
-    if (c == 0) { //если в предыдущем цикле не нашлось ни одного контакта с группой, добавляем
-      app.contact().addContactToAnyGroup(contactInGroup.getId());// рандомный контакт в рандомную группу
     }
-   //app.goTo().groupPage(); !!!
-    //app.goTo().homePage(); !!!
 
-   /* do { //в этом цикле выбираем контакт имеющий группу - randomContact - он либо имел группу - был найден
-      contactInGroup = app.db().contacts().iterator().next();//в предыдущем цикле, либо был добавлен в группу
+    if (i == 0) { //если в предыдущем цикле не нашлось ни одного контакта с группой, добавляем
+      contactInGroup = contactsArray[0];// рандомный контакт (1й - вдруг он всего 1) в рандомную группу
+      app.contact().addContactToAnyGroup(contactInGroup.getId());
     }
-    while (contactInGroup.getId() != randomContact.getId());*/
 
     System.out.println(contactInGroup.getGroups().size());
     Groups beforeGroupsList = contactInGroup.getGroups();
