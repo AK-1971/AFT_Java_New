@@ -6,11 +6,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.collections.Sets;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,15 +48,40 @@ public class ContactToFromGroup extends TestBase {
     ContactData contactAddToGroup = anyContact;
     GroupData groupInContact = null;
     GroupData groupToAdd = groupInContact;
+    /*Iterator<GroupData> groupsIterator = groups.iterator();
+    while (groupsIterator.hasNext()) {
+      nextGroup = groupsIterator.next();*/
+    /*Users users = app.db().users();
+    UserData[] usersArray = new UserData[users.size()];
+    users.toArray(usersArray);
+    //UserData userForEdit = usersArray[1];*/
+
+    Groups groupsList = app.db().groups();
+    GroupData[] groupsArray = new GroupData[groupsList.size()];
+    groupsList.toArray(groupsArray);
+
+    Contacts contactsList = app.db().contacts();
+    ContactData[] contactsArray = new ContactData[contactsList.size()];
+    contactsList.toArray(contactsArray);
+
     int i = 0; //счетчик для определения есть ли контакты которые могут быть добавлены в группу
-    do {
-      anyContact = app.db().contacts().iterator().next(); //проверяем количество групп в контакте - если их меньше
-      if (anyContact.getGroups().size() != allGroupCount) { //чем общее кол-во групп - значит этот контакт добавляем в группу
+
+    for(int c = 0; c < contactsList.size(); c++) {
+      if (contactsArray[c].getGroups().size() != allGroupCount) {
         i++;
+        contactAddToGroup = contactsArray[c];
         break;
       }
     }
-    while (anyContact.getGroups().size() == allGroupCount);
+
+    /*Iterator<ContactData> contactIterator = app.db().contacts().iterator();
+    while (contactIterator.hasNext()) {
+      anyContact = contactIterator.next();
+      if (anyContact.getGroups().size() != allGroupCount) { //проверяем количество групп в контакте - если их меньше
+        i++;                                         //чем общее кол-во групп - значит этот контакт добавляем в группу
+        break;
+      }
+    }*/
 
     if (i == 0) {// если true - значит создаем новый контакт
       ContactData contact = new ContactData().setLastname("Created").setMiddlename("From")
@@ -62,28 +89,31 @@ public class ContactToFromGroup extends TestBase {
               .setHomePhone("123456789").setAllEmail("asdf@mail.ru")
               .setPhotoPath(new File("src\\test\\resources\\nafan.jpg"));
       app.contact().create(contact);
+      contactAddToGroup = contact;
 
-      int idCreatedContact = 0;
+      /*int idCreatedContact = 0;
       ContactData isContactJustCreated;
       while (app.db().contacts().iterator().hasNext()) { //поскольку только что созданный контакт имеет мах ID ищем в списке его
         isContactJustCreated = app.db().contacts().iterator().next();
         if (idCreatedContact < isContactJustCreated.getId()) {
           contactAddToGroup = isContactJustCreated;
         }
-      }
-    }  else {
-      contactAddToGroup = anyContact;
+      }*/
     }
 
-
-    while (app.db().groups().iterator().hasNext()) { //ищем ту группу в которую контакт не входит
-      groupToAdd = app.db().groups().iterator().next(); //в этом цикле берем поочередно группы из общего списка
+    for (int k = 0; k < groupsList.size(); k++) {
       int g = 0;
-      while (contactAddToGroup.getGroups().iterator().hasNext()) { //в этом цикле сравниваем группу из общего списка
-        groupInContact = contactAddToGroup.getGroups().iterator().next();//с каждой группой в контакте - если этой
-        if (groupToAdd.getId() == groupInContact.getId())  g++;//группы нет - добавляем в нее контакт
+
+      Iterator<GroupData> groupsIterator = contactAddToGroup.getGroups().iterator();
+      while (groupsIterator.hasNext()) {
+        if (groupsIterator.next().getId() == groupsArray[k].getId()) {
+          g++;//контакт уже состоит в этой группе; проверяем следующую группу контакта
+        }
       }
-      if (g == 0) break;
+      if (g == 0) {
+        groupToAdd = groupsArray[k];
+        break;
+      }
     }
 
     Groups beforeInContact = contactAddToGroup.getGroups();
