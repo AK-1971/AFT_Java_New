@@ -26,11 +26,18 @@ public class ChangePasswordTest extends TestBase {
     Users users = app.db().users();
     UserData[] usersArray = new UserData[users.size()];
     users.toArray(usersArray);
-    UserData userForEdit = usersArray[1];
-    //UserData userForEdit = users.iterator().next();
+    String usersName;
+    UserData userForEdit = null;
+    for (int i = 0; i < users.size(); i++ ) {
+      usersName = usersArray[i].getUsername();
+      if(!usersName.equals("administrator")){
+        userForEdit = usersArray[i];
+        break;
+      }
+    }
 
     int userId = userForEdit.getId();
-    String user = userForEdit.getUsername();
+    String userName = userForEdit.getUsername();
     String email = userForEdit.getEmail();
     String newPassword = "newPassword";
     app.registration().loginAdmin("administrator", "root");
@@ -38,7 +45,7 @@ public class ChangePasswordTest extends TestBase {
     List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
     app.registration().finishResetPassword(confirmationLink, newPassword);
-    assertTrue(app.newSession().login(user, newPassword));
+    assertTrue(app.newSession().login(userName, newPassword));
   }
 
   @AfterMethod(alwaysRun = true)
