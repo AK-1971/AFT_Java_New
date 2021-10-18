@@ -15,6 +15,7 @@ dependencies {
     implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.8'
     implementation 'mysql:mysql-connector-java:8.0.26'
     implementation 'org.hibernate:hibernate-core:5.5.6.Final'
+    implementation 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
 }
 
 test { //если убрать этот блок - как в лекции - тесты не будут запускатся из IDE
