@@ -31,8 +31,8 @@ public class SoapHelper {
 
   private MantisConnectPortType getMantisConnect() throws ServiceException, MalformedURLException {
     MantisConnectPortType mc = new MantisConnectLocator()
-            .getMantisConnectPort(new URL("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php"));
-            //.getMantisConnectPort(new URL(app.getProperty("web.connectionURL")));
+            //.getMantisConnectPort(new URL("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php"));
+            .getMantisConnectPort(new URL(app.getProperty("web.connectionURL")));//вместо предыдущей строки вынес ее в конфигурационный файл
 
     return mc;
   }
@@ -40,11 +40,11 @@ public class SoapHelper {
   public Issue addIssue(Issue issue) throws ServiceException, MalformedURLException, RemoteException {
     MantisConnectPortType mc = getMantisConnect();
     String[] categories = mc.mc_project_get_categories("administrator", "root", issue.getProject().getId());
-    IssueData issueData = new IssueData();
+    IssueData issueData = new IssueData(); //Класс из подключенной библиотеки
     issueData.setSummary(issue.getSummary());
     issueData.setDescription(issue.getDescription());
     issueData.setProject(new ObjectRef(issue.getProject().getId(), issue.getProject().getName()));
-    issueData.setCategory(categories[0]);
+    issueData.setCategory(categories[0]);//объяснение в 9.3. на 20.00
     BigInteger issueId = mc.mc_issue_add("administrator", "root", issueData);
     IssueData createdIssueData = mc.mc_issue_get("administrator", "root", issueId);
     return new Issue().setId(createdIssueData.getId()).setSummary(createdIssueData.getSummary())
