@@ -40,7 +40,7 @@ public class SoapHelper {
   public Issue addIssue(Issue issue) throws ServiceException, MalformedURLException, RemoteException {
     MantisConnectPortType mc = getMantisConnect();
     String[] categories = mc.mc_project_get_categories("administrator", "root", issue.getProject().getId());
-    IssueData issueData = new IssueData(); //Класс из подключенной библиотеки
+    IssueData issueData = new IssueData(); //Класс из подключенной библиотеки Мантисс (9.3.) см External Libraries
     issueData.setSummary(issue.getSummary());
     issueData.setDescription(issue.getDescription());
     issueData.setProject(new ObjectRef(issue.getProject().getId(), issue.getProject().getName()));
