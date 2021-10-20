@@ -8,17 +8,17 @@ import java.util.Set;
 
 public class Groups extends ForwardingSet<GroupData> { //5.6. с 04.10
 
-  private Set<GroupData> delegate; //создаем объект которому будут делегированы стандартные методы GroupData + наши новые
+  private Set<GroupData> delegateObject; //создаем объект которому будут делегированы стандартные методы GroupData + наши новые
 
   public Groups(Groups groups) {
-    this.delegate = new HashSet<GroupData>(groups.delegate);
+    this.delegateObject = new HashSet<GroupData>(groups.delegateObject);
   }
 
   public Groups() {
-    this.delegate = new HashSet<GroupData>();
+    this.delegateObject = new HashSet<GroupData>();
   }
 
-  public Groups(Collection<GroupData> groups) {this.delegate = new HashSet<GroupData>(groups);} //7.4. на 06.50
+  public Groups(Collection<GroupData> groups) {this.delegateObject = new HashSet<GroupData>(groups);} //7.4. на 06.50
 
   public Groups withAdded(GroupData group) { //в этом методе мы делаем копию delegate и добавляем в нее объекта (group)- это даст возможность работать и с новым объектом и старым, неизменённым множеством
     Groups groups = new Groups(this);//создаем копию - новое множество с помощью конструктора
@@ -34,7 +34,7 @@ public class Groups extends ForwardingSet<GroupData> { //5.6. с 04.10
 
   @Override
   protected Set<GroupData> delegate() {
-    return delegate;
+    return delegateObject;
   }
 
 }
