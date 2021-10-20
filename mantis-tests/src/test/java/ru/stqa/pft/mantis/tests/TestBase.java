@@ -2,24 +2,17 @@ package ru.stqa.pft.mantis.tests;
 
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.SkipException;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.mantis.appmanager.AppsManager;
-import ru.stqa.pft.mantis.model.Issue;
+import ru.stqa.pft.mantis.model.IssueInfo;
 
 import javax.xml.rpc.ServiceException;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.CoreMatchers.equalTo;
 
 public class TestBase {
 
@@ -41,8 +34,9 @@ public class TestBase {
 
 
   public boolean isIssueOpen(BigInteger issueId) throws MalformedURLException, ServiceException, RemoteException {
-    Issue issue = app.soap().getIssue(issueId);
-    System.out.println(issue.getResolution().getName());
+    IssueInfo issue = app.soap().getIssue(issueId);
+
+    System.out.println("Issue " +  issueId + " " + issue.getResolution().getName());
     return issue.getResolution().getName().equals("fixed");
   }
 
@@ -51,6 +45,6 @@ public class TestBase {
       System.out.println("Issue " + issueId + " not fixed");
       throw new SkipException("Ignored because of issue " + issueId);
     }
-    System.out.println("Issue" + issueId + " is ready for tests");
+    System.out.println("Issue " + issueId + " is ready for tests");
   }
 }
