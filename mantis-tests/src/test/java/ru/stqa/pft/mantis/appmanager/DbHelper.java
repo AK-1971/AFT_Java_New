@@ -26,7 +26,7 @@ public class DbHelper { //7.4.
   public Issues issues() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<IssueInfo> result = session.createQuery("from Issue").list();
+    List<IssueInfo> result = session.createQuery("from IssueInfo").list();
     session.getTransaction().commit();
     session.close();
     return new Issues(result);

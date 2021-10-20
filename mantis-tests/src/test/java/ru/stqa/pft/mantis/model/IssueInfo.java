@@ -2,14 +2,23 @@ package ru.stqa.pft.mantis.model;
 
 import biz.futureware.mantis.rpc.soap.client.ObjectRef;
 
+import javax.persistence.*;
 import java.math.BigInteger;
 
+@Entity
+@Table(name = "mantis_bug_table")
 public class IssueInfo {
 
+  @Id
+  @Column(name = "id")
   private BigInteger id;
+  @Column(name = "summary")
   private String summary;
+  @Transient
   private String description;
+  @Column(name = "resolution")
   private ObjectRef resolution;
+  @Column(name = "project")
   private Project project;
 
   public BigInteger getId() {

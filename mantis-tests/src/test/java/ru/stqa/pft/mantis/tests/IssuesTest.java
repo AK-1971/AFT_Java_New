@@ -18,11 +18,11 @@ public class IssuesTest extends TestBase {
     IssueInfo[] issuesArray = new IssueInfo[issues.size()];
     issues.toArray(issuesArray);
 
-    /*BigInteger issueId;
+    BigInteger issueId;
     for (int i = 0; i < issues.size(); i++) {
-      issueId = BigInteger.valueOf(issuesArray[i].getId());
+      issueId = issuesArray[i].getId();
       //issueId = BigInteger.valueOf(issuesArray[i].getId());
       skipIfNotFixed(issueId);
-    }*/
+    }
   }
 }
