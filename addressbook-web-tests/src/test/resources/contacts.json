@@ -8,5 +8,25 @@
     "mobilePhone": "Phone_0",
     "allEmail": "email_0",
     "photoPath": "src\\test\\resources\\nafan.jpg"
+  },
+  {
+    "firstname": "FilesName_1",
+    "lastname": "LastName_1",
+    "nickname": "NickName_1",
+    "company": "Company_1",
+    "address": "adress_1",
+    "mobilePhone": "Phone_1",
+    "allEmail": "email_1",
+    "photoPath": "src\\test\\resources\\nafan.jpg"
+  },
+  {
+    "firstname": "FilesName_2",
+    "lastname": "LastName_2",
+    "nickname": "NickName_2",
+    "company": "Company_2",
+    "address": "adress_2",
+    "mobilePhone": "Phone_2",
+    "allEmail": "email_2",
+    "photoPath": "src\\test\\resources\\nafan.jpg"
   }
 ]
