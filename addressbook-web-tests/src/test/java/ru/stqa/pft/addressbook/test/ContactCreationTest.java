@@ -7,6 +7,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -18,6 +19,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ContactCreationTest extends TestBase {
+
+  @BeforeTest
+  public void preconditions(){ app.group().createIfNotExists();}
 
   //String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
 
