@@ -33,14 +33,14 @@ public class TestBase {
   }
 
 
-  public boolean isIssueOpen(BigInteger issueId) throws MalformedURLException, ServiceException, RemoteException {
+  public boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
     IssueInfo issue = app.soap().getIssue(issueId);
 
     System.out.println("Issue " +  issueId + " " + issue.getResolution().getName());
     return issue.getResolution().getName().equals("fixed");
   }
 
-  public void skipIfNotFixed(BigInteger issueId) throws MalformedURLException, ServiceException, RemoteException {
+  public void skipIfNotFixed(int issueId) throws MalformedURLException, ServiceException, RemoteException {
     if (!isIssueOpen(issueId)) {
       System.out.println("Issue " + issueId + " not fixed");
       throw new SkipException("Ignored because of issue " + issueId);

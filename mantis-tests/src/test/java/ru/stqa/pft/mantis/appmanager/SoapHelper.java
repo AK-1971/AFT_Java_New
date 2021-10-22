@@ -50,30 +50,40 @@ public class SoapHelper {
 
   public IssueInfo addIssue(IssueInfo issue) throws ServiceException, MalformedURLException, RemoteException {
     MantisConnectPortType mc = getMantisConnect();
-    String[] categories = mc.mc_project_get_categories("administrator", "root", issue.getProject().getId());
+    String[] categories =
+            mc.mc_project_get_categories("administrator", "root", issue.getProject().getId());
     IssueData issueData = new IssueData(); //Класс из подключенной библиотеки Мантисс (9.3.) см External Libraries
     issueData.setSummary(issue.getSummary());
     issueData.setDescription(issue.getDescription());
-    issueData.setProject(new ObjectRef(issue.getProject().getId(), issue.getProject().getName()));
+    //issueData.setProject(new ObjectRef(issue.getProject().getId().intValue(), issue.getProject().getName()));
+    //issueData.setProject(issue.getProject().getId().intValue(), issue.getProject().getName());
     issueData.setCategory(categories[0]);//объяснение в 9.3. на 20.00
     BigInteger issueId = mc.mc_issue_add("administrator", "root", issueData);
     IssueData createdIssueData = mc.mc_issue_get("administrator", "root", issueId);
-    return new IssueInfo().setId(createdIssueData.getId()).setSummary(createdIssueData.getSummary())
+    /*return new IssueInfo().setId(createdIssueData.getId().intValue()).setSummary(createdIssueData.getSummary())
+            .setDescription(createdIssueData.getDescription())
+            .setProject(issueData.getProject().getId().intValue());
+            //.setProject(new Project().setId(createdIssueData.getProject().getId())
+            .setName(createdIssueData.getProject().getName()));*/
+    return new IssueInfo().setId(createdIssueData.getId().intValue()).setSummary(createdIssueData.getSummary())
             .setDescription(createdIssueData.getDescription()).setProject(new Project()
                     .setId(createdIssueData.getProject().getId())
                     .setName(createdIssueData.getProject().getName()));
   }
-
-  public IssueInfo getIssue(BigInteger issueId) throws MalformedURLException, ServiceException, RemoteException {
+  public IssueInfo getIssue(int issueId) throws MalformedURLException, ServiceException, RemoteException {
     MantisConnectPortType mc = getMantisConnect();
-    IssueData issueData = mc.mc_issue_get("administrator", "root", issueId);
+    IssueData issueData = mc.mc_issue_get("administrator", "root", BigInteger.valueOf(issueId));
 
     IssueInfo issue = new IssueInfo();
     issue.setSummary(issueData.getSummary()).setDescription(issueData.getDescription()).
-            setId(issueData.getId()).
+            setId(issueData.getId().intValue()).
             setProject(new Project(issueData.getProject().getId(), issueData.getProject().getName())).
             setResolution(issueData.getResolution());
-
+    /*issue.setSummary(issueData.getSummary()).setDescription(issueData.getDescription())
+            .setId(issueData.getId())
+            .setProject(issueData.getProject().getId().intValue())
+            //setProject(new Project(issueData.getProject().getId(), issueData.getProject().getName())).
+            .setResolution(issueData.getResolution().getName());*/
     return issue;
   }
 }

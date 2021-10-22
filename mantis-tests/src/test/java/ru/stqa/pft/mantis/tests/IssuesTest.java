@@ -23,7 +23,7 @@ public class IssuesTest extends TestBase {
     IssueInfo[] issuesArray = new IssueInfo[issues.size()];
     issues.toArray(issuesArray);
 
-    BigInteger issueId;
+    int issueId;
     for (int i = 0; i < issues.size(); i++) {
       issueId = issuesArray[i].getId();
       //issueId = BigInteger.valueOf(issuesArray[i].getId());

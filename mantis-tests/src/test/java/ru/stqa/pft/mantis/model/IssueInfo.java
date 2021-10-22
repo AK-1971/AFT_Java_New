@@ -3,7 +3,6 @@ package ru.stqa.pft.mantis.model;
 import biz.futureware.mantis.rpc.soap.client.ObjectRef;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 @Entity
 @Table(name = "mantis_bug_table")
@@ -11,21 +10,28 @@ public class IssueInfo {
 
   @Id
   @Column(name = "id")
-  private BigInteger id;
-  @Column(name = "summary")
+  private int id;
+
+  //@Column(name = "summary")
   private String summary;
+
   @Transient
   private String description;
-  @Column(name = "resolution")
+  //private ObjectRef resolution;
+
+  //@Column(name = "resolution")
+  //private String resolution;
+  @Transient
   private ObjectRef resolution;
-  @Column(name = "project")
+
+  @Transient
   private Project project;
 
-  public BigInteger getId() {
+  public int getId() {
     return id;
   }
 
-  public IssueInfo setId(BigInteger id) {
+  public IssueInfo setId(int id) {
     this.id = id;
     return this;
   }
