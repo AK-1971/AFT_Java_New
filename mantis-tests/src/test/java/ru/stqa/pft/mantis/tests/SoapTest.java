@@ -18,7 +18,7 @@ public class SoapTest extends TestBase{
 
   long now = System.currentTimeMillis();
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testGetProjects2() throws MalformedURLException, ServiceException, RemoteException {
     Set<Project> projects = app.soap().getProjects();
     System.out.println(projects.size());

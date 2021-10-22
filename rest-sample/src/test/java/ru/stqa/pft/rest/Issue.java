@@ -6,6 +6,7 @@ public class Issue {
   private int id;
   private String subject;
   private String description;
+  private String status;
 
   public int getId() {
     return id;
@@ -29,6 +30,11 @@ public class Issue {
     return description;
   }
 
+  public Issue setDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -42,8 +48,4 @@ public class Issue {
     return Objects.hash(id, subject, description);
   }
 
-  public Issue setDescription(String description) {
-    this.description = description;
-    return this;
-  }
 }

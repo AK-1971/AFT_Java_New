@@ -17,11 +17,20 @@ public class RestTest {
 
   @Test
   public void testCreateIssue() throws IOException {
+    long now = System.currentTimeMillis();
+    String subject =  String.format("AK Test issue_%s", now);
+    String description =  String.format("Test description_%s", now);
     Set<Issue> oldIssues = getIssue();
-    Issue newIssue = new Issue().setSubject("Test issue").setDescription("New test issue");
+    Issue newIssue = new Issue().setSubject(subject).setDescription(description);
     int issueID = createIssue(newIssue);
     Set<Issue> newIssues = getIssue();
     oldIssues.add(newIssue.setId(issueID));
+    int i = 0;
+    for (Issue issue : newIssues) {
+      i++;
+      System.out.println(" " + i + ". " + "Issue ID: " + issue.getId() + "  Subject: " + issue.getSubject()
+              + "  Description: " + issue.getDescription());
+    }
     Assert.assertEquals(newIssues, oldIssues);
   }
 
