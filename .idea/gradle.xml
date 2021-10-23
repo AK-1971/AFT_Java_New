@@ -30,6 +30,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/github-sample" />
         <option name="gradleHome" value="C:/Program Files/Gradle/gradle-7.1.1-bin/gradle-7.1.1" />
@@ -54,6 +56,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/rest-sample" />
         <option name="gradleHome" value="C:/Program Files/Gradle/gradle-7.1.1-bin/gradle-7.1.1" />
