@@ -31,7 +31,7 @@ public class CheckIssueStatus extends TestBase {
         if (i != 0 ) condition = 'K';
         if (issueSubject[i] != condition) break;
         if ( i == 1 )  skipIfNotFixed(issue.getId());
-        
+
       }
     }
 

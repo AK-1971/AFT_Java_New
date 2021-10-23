@@ -21,17 +21,22 @@ public class TestBase {
             .returnContent().asString();
     JsonElement parsed = new JsonParser().parse(json);
     System.out.println("Issue " +  issueId );
-    System.out.println(parsed.getAsJsonObject().get("state_name").getAsString());
-    return parsed.getAsJsonObject().get("state_name").getAsString().equals("Open");
+    String stateName = parsed.getAsJsonObject()
+            .getAsJsonArray("issues")
+            .get(0)
+            .getAsJsonObject()
+            .get("state_name")
+            .getAsString();
+    return stateName.equals("Open");
     //return parsed.getAsJsonObject().get("state").getAsInt() == 0;
   }
 
   public void skipIfNotFixed(int issueId) throws IOException {
-    if (!isIssueOpen(issueId)) {
+    if (isIssueOpen(issueId)) {
       System.out.println("Issue " + issueId + " not fixed");
-      throw new SkipException("Ignored because of issue " + issueId);
-    }
-    System.out.println("Issue " + issueId + " is ready for tests");  }
+      //throw new SkipException("Ignored because of issue " + issueId);
+    } else  System.out.println("Issue " + issueId + " is ready for tests");
+  }
 
   public Executor getExecutor() {
     return Executor.newInstance()
