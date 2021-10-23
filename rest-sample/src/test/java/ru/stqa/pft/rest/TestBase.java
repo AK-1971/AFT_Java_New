@@ -20,10 +20,7 @@ public class TestBase {
             .execute(Request.Get(String.format("https://bugify.stqa.ru/api/issues/%s.json", issueId)))
             .returnContent().asString();
     JsonElement parsed = new JsonParser().parse(json);
-    //if(parsed.getAsJsonObject().get("state").getAsInt() == 0);
-
     System.out.println("Issue " +  issueId );
-    //boolean condition = if (parsed.getAsJsonObject().get("state").getAsInt() == 0);
     System.out.println(parsed.getAsJsonObject().get("state_name").getAsString());
     return parsed.getAsJsonObject().get("state_name").getAsString().equals("Open");
     //return parsed.getAsJsonObject().get("state").getAsInt() == 0;

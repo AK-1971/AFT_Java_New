@@ -8,6 +8,15 @@ public class Issue {
   private String description;
   private String status;
 
+  public String getStatus() {
+    return status;
+  }
+
+  public Issue setStatus(String status) {
+    this.status = status;
+    return this;
+  }
+
   public int getId() {
     return id;
   }
@@ -40,12 +49,21 @@ public class Issue {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Issue issue = (Issue) o;
-    return id == issue.id && Objects.equals(subject, issue.subject) && Objects.equals(description, issue.description);
+    return id == issue.id && Objects.equals(subject, issue.subject) && Objects.equals(description, issue.description) && Objects.equals(status, issue.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, subject, description);
+    return Objects.hash(id, subject, description, status);
   }
 
+  @Override
+  public String toString() {
+    return "Issue{" +
+            "id=" + id +
+            ", subject='" + subject + '\'' +
+            ", description='" + description + '\'' +
+            ", status='" + status + '\'' +
+            '}';
+  }
 }

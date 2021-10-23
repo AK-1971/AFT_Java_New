@@ -18,16 +18,20 @@ public class CheckIssueStatus extends TestBase {
   public void isIssueReadyTotest() throws IOException {
     //В общем списке Issues выберу только свои - там где subject начинается на АК
     Set<Issue> listIssues = getIssue();
+
     for (Issue issue : listIssues) {
+
       String str = issue.getSubject();
       char[] issueSubject = new char[str.length()];
+
       for (int i = 0; i < str.length(); i++) {
+
         issueSubject[i] = str.charAt(i);
-        //if (!Assert.assertEquals(issueSubject[i], "A")) break;
         char condition = 'A';
         if (i != 0 ) condition = 'K';
         if (issueSubject[i] != condition) break;
         if ( i == 1 )  skipIfNotFixed(issue.getId());
+        
       }
     }
 
