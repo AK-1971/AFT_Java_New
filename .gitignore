@@ -14,3 +14,4 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 addressbook-web-tests/out
 mantis-tests/out
+github-sample/out
