@@ -11,6 +11,6 @@ public class TestForPointsDistance {
     Point p1 = new Point(1, 2);
     Point p2 = new Point(4, 6);
     Assert.assertEquals(p1.distance(p2), 5.0);
-
+    //Внес этото коммент для проверки работы Дженкинса
   }
 }
