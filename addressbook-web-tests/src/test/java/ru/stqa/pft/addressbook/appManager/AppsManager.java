@@ -6,11 +6,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -55,19 +58,26 @@ public class AppsManager {
 
     dbHelper = new DbHelper();
 
-    switch (browser) {
-      case BrowserType.FIREFOX:
-        wd = new FirefoxDriver();
-        break;
-      case BrowserType.CHROME:
-        wd = new ChromeDriver();
-        break;
-      case BrowserType.IE:
-        wd = new InternetExplorerDriver();
-        break;
-      default:
-        wd = new OperaDriver();
+    if("".equals(properties.getProperty("selenium.server"))) {
+      switch (browser) {
+        case BrowserType.FIREFOX:
+          wd = new FirefoxDriver();
+          break;
+        case BrowserType.CHROME:
+          wd = new ChromeDriver();
+          break;
+        case BrowserType.IE:
+          wd = new InternetExplorerDriver();
+          break;
+        default:
+          wd = new OperaDriver();
+      }
+    } else {
+      DesiredCapabilities capabilities = new DesiredCapabilities();
+      capabilities.setBrowserName(browser);
+      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
+
     //ожидание появления поля если вдруг интернет медленный, объяснение в 3.8. на 11.30
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);//это мешает при проверках когда элемент должен отсутствовать - тест будет зеленый, но время будет затрачено
     wd.get(properties.getProperty("web.baseUrl")); //6.10
