@@ -12,5 +12,6 @@ public class TestForPointsDistance {
     Point p2 = new Point(4, 6);
     Assert.assertEquals(p1.distance(p2), 5.0);
     //Внес этото коммент для проверки работы Дженкинса
+    // и добавил в конфигурацию Дж еще и workingBranch
   }
 }
