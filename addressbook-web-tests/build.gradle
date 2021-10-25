@@ -23,7 +23,7 @@ test { //если убрать этот блок - как в лекции - те
 
 task testGroups(type: Test) { // 6.10 - запуск пакетов из консоли
     useTestNG() {
-        suites 'src\test\resources\testng-groups.xml'
+        suites 'src\\test\\resources\\testng-groups.xml'
     }
     if (project.hasProperty('browser')) {
         systemProperty 'browser', "${browser}"
