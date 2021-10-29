@@ -5,6 +5,10 @@ repositories{
     mavenCentral()
 }
 
+configurations {
+    agent
+}
+
 dependencies {
     implementation ('org.testng:testng:7.4.0')
     implementation ('org.seleniumhq.selenium:selenium-java:4.0.0-beta-4')
@@ -15,8 +19,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.5")
     implementation("mysql:mysql-connector-java:8.0.25")
     implementation 'org.hibernate:hibernate-core:5.5.6.Final'
+    agent "org.aspectj:aspectjweaver:1.8.0"
+    implementation "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
 }
-
 test { //если убрать этот блок - как в лекции - тесты не будут запускатся из IDE
     useTestNG()
 }
@@ -34,6 +39,10 @@ task testGroups(type: Test) { // 6.10 - запуск пакетов из кон�
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
     }
+}
+
+testGroups.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
 }
 
 task testContacts(type: Test) { // 6.10 - запуск пакетов из консоли
