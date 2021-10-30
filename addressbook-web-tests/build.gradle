@@ -41,7 +41,7 @@ task testGroups(type: Test) { // 6.10 - запуск пакетов из кон�
     }
 }
 
-testGroups.doFirst {
+testGroups.doFirst {//эта задача ставится после определения таска см.10.4. на 03.30
     jvmArgs "-javaagent:${configurations.agent.singleFile}"
 }
 
@@ -59,3 +59,8 @@ task testContacts(type: Test) { // 6.10 - запуск пакетов из ко�
         systemProperty 'target', "${target}"
     }
 }
+
+testContacts.doFirst {//эта задача ставится после определения таска см.10.4. на 03.30
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
+
