@@ -26,11 +26,6 @@ public class ContactDeletionTest extends TestBase {
     app.contact().delete(deletedContact);
     Assert.assertEquals(app.contact().getCount(), before.size() - 1);
     Contacts after = app.db().contacts();
-    //before.remove(deletedContact);
-    /*for (int i = 0; i < after.size(); i++) { //можно таким способом сравнивать каждый член упорядоченной коллекции
-      Assert.assertEquals(before.get(i), after.get(i)); так работал до того как list() поменял аll()
-    }*/
-    //Assert.assertEquals(before, after); //тут фреймворк сам организовывает такой цикл
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.withOut(deletedContact)));
     verifyContactListInUI();// для запуска метода в Edit Configuration в поле VM должно быть -ea -DverifyUI=true
   }

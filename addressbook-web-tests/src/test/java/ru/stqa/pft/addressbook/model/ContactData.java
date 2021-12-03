@@ -80,28 +80,10 @@ public class ContactData {
   @Transient
   private String notes;
 
-  /*@Expose
-  public File photo;
-
-  public File getPhoto() {
-    return photo;
-  }
-
-  public ContactData setPhoto(File photo) {
-    this.photo = photo;
-    return this;
-  }*/
   @Expose
   @Column(name = "photo")
   @Type(type = "text")
   private String photoPath;
-
- /* public ContactData setPhotoPath(String photoPath) {
-    this.photoPath = photoPath;
-    return this;
-  }
-
-  public File getPhotoPath() { return new File(photoPath); }*/
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"),

@@ -23,12 +23,9 @@ public class ContactCreationTest extends TestBase {
   @BeforeTest
   public void preconditions(){ app.group().createIfNotExists();}
 
-  //String groupName = new String(); //не создавал конструктора без группы, поэтому имя группы в контакт передавать нужно
-
   @DataProvider
   public Iterator<Object[]> contactsCSV() throws IOException {
-    app.goTo().groupPage(); //создаем список из которого берем группу в которую
-    // с помощью setGroup(group.getId() добавим контакт
+    app.goTo().groupPage(); //создаем список из которого берем группу в которую с помощью setGroup(group.getId() добавим контакт
     app.group().createIfNotExists(); //поскольку провайдер выполняется до before метода, проверяем наличие группы
     app.goTo().groupPage();
     List<GroupData> groups = app.group().list();

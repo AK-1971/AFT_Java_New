@@ -58,7 +58,7 @@ public class ContactToFromGroup extends TestBase {
 
     int i = 0; //счетчик для определения есть ли контакты которые могут быть добавлены в группу
 
-    for(int c = 0; c < contactsList.size(); c++) {
+    for (int c = 0; c < contactsList.size(); c++) {
       if (contactsArray[c].getGroups().size() != allGroupCount) {
         i++;
         contactAddToGroup = contactsArray[c];
@@ -78,13 +78,14 @@ public class ContactToFromGroup extends TestBase {
     //поиск группы в общем списке в которую найденный контакт не входит
     for (int k = 0; k < groupsList.size(); k++) {//сравниваем группу из общего списка с группой из списка групп контакта
       int g = 0;
-
       Iterator<GroupData> groupsIterator = contactAddToGroup.getGroups().iterator();//создаем список групп контакта
+
       while (groupsIterator.hasNext()) {
         if (groupsIterator.next().getId() == groupsArray[k].getId()) {
           g++;//контакт уже состоит в этой группе; проверяем следующую группу контакта
         }
       }
+
       if (g == 0) {
         groupToAdd = groupsArray[k];
         break;
@@ -97,7 +98,8 @@ public class ContactToFromGroup extends TestBase {
     app.goTo().homePage();
     ContactData contactWithNewGroups;
     do {
-      contactWithNewGroups = app.db().contacts().iterator().next(); }
+      contactWithNewGroups = app.db().contacts().iterator().next();
+    }
     while (contactWithNewGroups.getId() != contactAddToGroup.getId());
 
     Groups afterInContact = contactWithNewGroups.getGroups();
@@ -107,8 +109,6 @@ public class ContactToFromGroup extends TestBase {
 
   @Test(enabled = true)
   public void contactFromGroup() {
-    //app.goTo().groupPage();
-    //Groups groups = app.group().all();//считываю список групп
     app.goTo().homePage();
 
     Groups groupsList = app.db().groups();
@@ -119,12 +119,11 @@ public class ContactToFromGroup extends TestBase {
     ContactData[] contactsArray = new ContactData[contactsList.size()];
     contactsList.toArray(contactsArray);
 
-    //ContactData contactInGroup;
     ContactData contactInGroup = null;
 
     int i = 0; //счетчик для определения есть ли контакты которые могут быть добавлены в группу
 
-    for(int c = 0; c < contactsList.size(); c++) { //в цикле проверяем состоит ли контакт в группе
+    for (int c = 0; c < contactsList.size(); c++) { //в цикле проверяем состоит ли контакт в группе
       if (contactsArray[c].getGroups().size() != 0) { //если состоит используем его
         i++;
         contactInGroup = contactsArray[c];
@@ -159,7 +158,7 @@ public class ContactToFromGroup extends TestBase {
   }
 
   //Ниже - старые тесты - в них я брал произвольный контакт и в тесте для удаления из группы проверял - если
-  //контакт на в группе - то сначала добавлял, затем удалял, при добавлении из группы - порядок обратный
+  //контакт не в группе - то сначала добавлял, затем удалял, при добавлении из группы - порядок обратный
   @Test(enabled = true)
   public void contactToGroupOld() {//В этом тесте берется произвольный контакт, если он уже в группе, то удаляется
     app.goTo().groupPage(); // из группы, а потом добавлеяем - так делал раньше
@@ -176,7 +175,8 @@ public class ContactToFromGroup extends TestBase {
     app.goTo().homePage();
     ContactData contactOutOfGroups;
     do {
-      contactOutOfGroups = app.db().contacts().iterator().next(); }
+      contactOutOfGroups = app.db().contacts().iterator().next();
+    }
     while (contactOutOfGroups.getId() != randomContact.getId());
 
     System.out.println(contactOutOfGroups.getGroups().size());
@@ -188,7 +188,8 @@ public class ContactToFromGroup extends TestBase {
 
     ContactData contactAddTofGroup;
     do {
-      contactAddTofGroup = app.db().contacts().iterator().next(); }
+      contactAddTofGroup = app.db().contacts().iterator().next();
+    }
     while (contactAddTofGroup.getId() != contactOutOfGroups.getId());
 
     MatcherAssert.assertThat(contactAddTofGroup.getGroups().size(),
@@ -216,7 +217,8 @@ public class ContactToFromGroup extends TestBase {
 
     ContactData contactInGroup;
     do {
-      contactInGroup = app.db().contacts().iterator().next(); }
+      contactInGroup = app.db().contacts().iterator().next();
+    }
     while (contactInGroup.getId() != randomContact.getId());
 
     System.out.println(contactInGroup.getGroups().size());
@@ -230,7 +232,8 @@ public class ContactToFromGroup extends TestBase {
     //Обновляю контакт (чтобы не подхватился кешированный
     ContactData contactOutOfGroups;
     do {
-      contactOutOfGroups = app.db().contacts().iterator().next(); }
+      contactOutOfGroups = app.db().contacts().iterator().next();
+    }
     while (contactOutOfGroups.getId() != contactInGroup.getId());
 
     System.out.println(contactOutOfGroups.getGroups().size());
